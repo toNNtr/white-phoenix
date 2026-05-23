@@ -29,9 +29,11 @@
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
-    "play": "vite",
     "test": "vitest",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
     "vue": "^3.0.0"
@@ -42,13 +44,13 @@
     "@tsdown/css": "^0.21.7",
     "@types/jsdom": "^28.0.1",
     "@types/node": "^25.6.0",
-    "@vitejs/plugin-vue": "^6.0.5",
     "@vitest/browser-playwright": "^4.1.2",
     "@vue/tsconfig": "^0.9.1",
     "playwright": "^1.58.2",
     "tsdown": "^0.21.7",
     "typescript": "^6.0.2",
-    "vite": "^8.0.3",
+    "unplugin-vue": "^7.2.0",
+    "vitepress": "^1.6.4",
     "vitest": "^4.1.2",
     "vitest-browser-vue": "^2.1.0",
     "vue": "^3.5.31",
