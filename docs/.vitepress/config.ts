@@ -4,6 +4,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
     title: "White Phoenix Docs",
     description: "White Phoenix Docs",
+    cleanUrls: true,
     themeConfig: {
         // https://vitepress.dev/reference/default-theme-config
         nav: [
