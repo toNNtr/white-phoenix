@@ -1,4 +1,4 @@
 import ModalList from "./ModalList.vue";
 
-export * from "./useModal";
+export * from "./useModal.js";
 export { ModalList };

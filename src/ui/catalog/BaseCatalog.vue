@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="T extends { id: symbol | string | number }">
 import { onMounted, ref, type Ref } from "vue";
 import { type CatalogProps } from "./types";
-import type { FilterOptions, PagingOptions } from "@/shared/api/types/common";
+import type { FilterOptions, PagingOptions } from "@/types/common";
 
 const { layout = "grid", title = "", items = [], getItems } = defineProps<CatalogProps<T>>();
 const catalogClass = `catalog_${layout}`;

@@ -7,11 +7,12 @@ export default defineConfig({
     plugins: [vue(), svg()],
     entry: {
         main: "src/main.ts",
-        shared: "src/shared/index.ts",
-        widgets: "src/widgets/index.ts",
+        "ui/*": "src/ui/*/index.ts",
+        "api/*": "src/api/*/index.ts",
+        "types/*": "src/types/*/index.ts",
     },
     platform: "neutral",
-    exports: true,
+    exports: false,
     fromVite: true,
     dts: { vue: true, tsconfig: "./tsconfig.lib.json" },
     alias: {
