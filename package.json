@@ -14,9 +14,10 @@
     "url": "https://github.com/toNNtr/white-phoenix/issues"
   },
   "exports": {
-    "./main": "./dist/main.js",
-    "./shared": "./dist/shared.js",
-    "./widgets": "./dist/widgets.js",
+    ".": "./dist/main.js",
+    "./api/*": "./dist/api/*/index.js",
+    "./types/*": "./dist/types/*/index.js",
+    "./ui/*": "./dist/ui/*/index.js",
     "./package.json": "./package.json",
     "./style.css": "./dist/style.css"
   },

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePopup } from "@/shared/api/popup";
+import { usePopup } from "@/api/popup";
 import { computed, onMounted, useId, useTemplateRef } from "vue";
 
 const bodyWrapperRef = useTemplateRef("bodyWrapperRef");

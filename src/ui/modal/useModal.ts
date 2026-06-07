@@ -1,4 +1,4 @@
-import { ECloseReason, usePopup, type Popup } from "@/shared/api/popup";
+import { ECloseReason, usePopup, type Popup } from "@/api/popup";
 import { computed, shallowRef, type ComponentOptionsMixin, type DefineComponent } from "vue";
 
 export type Modal<T extends Record<string | number | symbol, unknown> = Record<string, unknown>> =
