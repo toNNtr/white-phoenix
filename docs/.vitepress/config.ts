@@ -8,20 +8,28 @@ export default defineConfig({
     themeConfig: {
         // https://vitepress.dev/reference/default-theme-config
         nav: [
-            { text: "Home", link: "/" },
-            { text: "Examples", link: "/markdown-examples" },
-        ],
-
-        sidebar: [
             {
-                text: "Examples",
+                text: "Документация",
                 items: [
-                    { text: "Markdown Examples", link: "/markdown-examples" },
-                    { text: "Runtime API Examples", link: "/api-examples" },
+                    { text: "UI", link: "/reference/ui/base-button" },
+                    { text: "API", link: "/reference/api" },
                 ],
             },
         ],
 
-        socialLinks: [{ icon: "github", link: "https://github.com/vuejs/vitepress" }],
+        sidebar: {
+            "/reference/ui/": [
+                {
+                    text: "Ввод",
+                    items: [{ text: "BaseButton", link: "/reference/ui/base-button" }],
+                },
+            ],
+            "reference/api/": [],
+        },
+
+        socialLinks: [{ icon: "github", link: "https://github.com/toNNtr/white-phoenix" }],
+        search: {
+            provider: "local",
+        },
     },
 });
