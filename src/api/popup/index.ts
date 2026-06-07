@@ -1,6 +1,6 @@
 import { ref, useId, type Ref } from "vue";
-import { useHandleClickOutside } from "./helpers";
-import type { ValueOf } from "./types/utility";
+import { useHandleClickOutside } from "../helpers";
+import type { ValueOf } from "../../types/utility";
 
 export const ECloseReason = {
     CLOSE: "close",

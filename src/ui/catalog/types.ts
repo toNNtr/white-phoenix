@@ -1,4 +1,4 @@
-import type { PagingOptions } from "@/shared/api/types/common";
+import type { PagingOptions } from "@/types/common";
 
 export type CatalogProps<T> = {
     layout?: "grid" | "horizontal";
