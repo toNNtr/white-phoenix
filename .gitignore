@@ -3,3 +3,5 @@ dist
 *.log
 .DS_Store
 .vscode/*
+docs/.vitepress/dist
+docs/.vitepress/cache
