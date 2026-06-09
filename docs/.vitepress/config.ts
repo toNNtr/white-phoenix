@@ -27,7 +27,11 @@ export default defineConfig({
                 {
                     text: "Композиция",
                     items: [{ text: "ButtonGroup", link: "/reference/ui/button-group" }],
-                }
+                },
+                {
+                    text: "Представление",
+                    items: [{ text: "CardMedium", link: "/reference/ui/card-medium" }],
+                },
             ],
             "reference/api/": [],
         },
