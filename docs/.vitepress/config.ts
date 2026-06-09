@@ -33,6 +33,15 @@ export default defineConfig({
             provider: "local",
         },
     },
+    markdown: {
+        container: {
+            tipLabel: "СОВЕТ",
+            warningLabel: "ПРЕДУПРЕЖДЕНИЕ",
+            dangerLabel: "ОПАСНОСТЬ",
+            infoLabel: "ИНФОРМАЦИЯ",
+            detailsLabel: "Подробная информация",
+        },
+    },
     vite: {
         resolve: {
             alias: {
