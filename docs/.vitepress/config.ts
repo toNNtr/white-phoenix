@@ -24,6 +24,10 @@ export default defineConfig({
                     text: "Ввод",
                     items: [{ text: "BaseButton", link: "/reference/ui/base-button" }],
                 },
+                {
+                    text: "Композиция",
+                    items: [{ text: "ButtonGroup", link: "/reference/ui/button-group" }],
+                }
             ],
             "reference/api/": [],
         },
