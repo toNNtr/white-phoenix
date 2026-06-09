@@ -37,7 +37,7 @@ import { ButtonGroup } from "@tonntr/white-phoenix/ui/button-group";
 
 ## Параметры {#props}
 
-### Element {#props-element}
+### element {#props-element}
 
 Позволяет использовать конкретный элемент в качестве обертки для группы.
 
@@ -83,7 +83,7 @@ import { MyComponent } from "...";
 
 :::
 
-### Direction {#props-direction}
+### direction {#props-direction}
 
 Влияет на направление отрисовки вложенных элементов.
 
@@ -133,7 +133,7 @@ import { MyComponent } from "...";
     </ButtonGroup>
 </div>
 
-### Rounded {#props-rounded}
+### rounded {#props-rounded}
 
 Добавляет скругления к первому и к последнему элементу группы:
 

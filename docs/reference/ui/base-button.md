@@ -24,7 +24,7 @@ import { BaseButton } from `@tonntr/white-phoenix/ui/button`;
 
 ## Использование {#usage}
 
-### variety: Primary {#usage-primary}
+### variety: primary {#usage-primary}
 
 Используется по умолчанию:
 
@@ -44,7 +44,7 @@ import { BaseButton } from `@tonntr/white-phoenix/ui/button`;
     <BaseButton>Primary button</BaseButton>
 </div>
 
-### variety: Outline {#usage-outline}
+### variety: outline {#usage-outline}
 
 ::: warning
 
