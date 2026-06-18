@@ -30,7 +30,10 @@ export default defineConfig({
                 },
                 {
                     text: "Представление",
-                    items: [{ text: "CardMedium", link: "/reference/ui/card-medium" }],
+                    items: [
+                        { text: "CardMedium", link: "/reference/ui/card-medium" },
+                        { text: "CardSmall", link: "/reference/ui/card-small" },
+                    ],
                 },
             ],
             "reference/api/": [],
