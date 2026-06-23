@@ -162,10 +162,16 @@
     background-color: var(--color-dw);
 }
 
+.demo > * {
+    max-width: 100%;
+}
+
 .demo h1,
 .demo h2,
 .demo h3 {
     margin: 0;
+    padding: 0;
+    border: none;
 }
 
 .demo h1 {
