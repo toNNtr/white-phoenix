@@ -31,6 +31,7 @@ export default defineConfig({
                 {
                     text: "Представление",
                     items: [
+                        { text: "BaseCatalog", link: "/reference/ui/base-catalog" },
                         { text: "CardMedium", link: "/reference/ui/card-medium" },
                         { text: "CardSmall", link: "/reference/ui/card-small" },
                     ],
