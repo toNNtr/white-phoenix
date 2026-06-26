@@ -17,9 +17,12 @@
     "skipLibCheck": true,
 
     "paths": {
-      "@/*": ["./docs/*"],
-      "@lib/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@docs/*": ["./docs/*"]
     }
+  },
+  "vueCompilerOptions": {
+    "vitePressExtensions": [".md"]
   },
   "include": ["docs/.vitepress/**/*", "docs/**/*.md", "docs/**/*.ts", "docs/**/*.vue"],
   "exclude": ["docs/.vitepress/dist", "docs/.vitepress/cache"]
