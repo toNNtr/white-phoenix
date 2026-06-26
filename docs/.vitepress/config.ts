@@ -35,6 +35,7 @@ export default defineConfig({
                         { text: "CardMedium", link: "/reference/ui/card-medium" },
                         { text: "CardSmall", link: "/reference/ui/card-small" },
                         { text: "DropdownBase", link: "/reference/ui/dropdown-base" },
+                        { text: "ModalList", link: "/reference/ui/modal-list" },
                     ],
                 },
             ],
