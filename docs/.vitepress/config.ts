@@ -34,6 +34,7 @@ export default defineConfig({
                         { text: "BaseCatalog", link: "/reference/ui/base-catalog" },
                         { text: "CardMedium", link: "/reference/ui/card-medium" },
                         { text: "CardSmall", link: "/reference/ui/card-small" },
+                        { text: "DropdownBase", link: "/reference/ui/dropdown-base" },
                     ],
                 },
             ],
