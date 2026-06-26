@@ -59,6 +59,7 @@ export default defineConfig({
         resolve: {
             alias: {
                 "@": path.join(process.cwd(), "./src"),
+                "@docs": path.join(process.cwd(), "./docs"),
             },
         },
     },
