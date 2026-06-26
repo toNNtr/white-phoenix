@@ -3,7 +3,7 @@ description: Базовый компонент самой обычной кно�
 ---
 
 <script setup>
-    import { BaseButton } from "@lib/ui/button";
+    import { BaseButton } from "@/ui/button";
 </script>
 
 <style>

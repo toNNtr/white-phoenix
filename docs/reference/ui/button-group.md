@@ -3,8 +3,8 @@ description: Компонент для группировки кнопок ил�
 ---
 
 <script setup>
-    import { ButtonGroup } from "@lib/ui/button-group";
-    import { BaseButton } from "@lib/ui/button";
+    import { ButtonGroup } from "@/ui/button-group";
+    import { BaseButton } from "@/ui/button";
 </script>
 
 # ButtonGroup {#button-group}

@@ -4,10 +4,10 @@ description: Компонент для отрисовки каталогов
 
 <script setup>
     import { onMounted, ref, useTemplateRef } from "vue";
-    import { BaseCatalog } from "@lib/ui/catalog";
-    import { CardSmall, CardMedium } from "@lib/ui/card";
-    import { BaseButton } from "@lib/ui/button";
-    import { ButtonGroup } from "@lib/ui/button-group";
+    import { BaseCatalog } from "@/ui/catalog";
+    import { CardSmall, CardMedium } from "@/ui/card";
+    import { BaseButton } from "@/ui/button";
+    import { ButtonGroup } from "@/ui/button-group";
 
     const usageItems = [
         { id: 0, title: "Страница 1", description: "Очень короткое описание" },

@@ -57,7 +57,7 @@ export default defineConfig({
     vite: {
         resolve: {
             alias: {
-                "@lib": path.join(process.cwd(), "./src"),
+                "@": path.join(process.cwd(), "./src"),
             },
         },
     },

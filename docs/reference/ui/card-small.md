@@ -3,10 +3,10 @@ description: Карточка с заголовком, описанием и п�
 ---
 
 <script setup>
-    import { CardSmall } from "@lib/ui/card";
-    import { BaseButton } from "@lib/ui/button";
-    import { ButtonGroup } from "@lib/ui/button-group";
-    import { usePopup } from "@lib/api/popup";
+    import { CardSmall } from "@/ui/card";
+    import { BaseButton } from "@/ui/button";
+    import { ButtonGroup } from "@/ui/button-group";
+    import { usePopup } from "@/api/popup";
 
     const popup = usePopup();
 

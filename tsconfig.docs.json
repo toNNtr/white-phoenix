@@ -17,8 +17,7 @@
     "skipLibCheck": true,
 
     "paths": {
-      "@/*": ["./docs/*"],
-      "@lib/*": ["./src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "vueCompilerOptions": {
