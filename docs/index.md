@@ -9,10 +9,10 @@ hero:
   actions:
     - theme: brand
       text: Документация UI
-      link: /reference/ui/base-button
+      link: reference/ui/base-button
     - theme: brand
       text: Документация API
-      link: /reference/api
+      link: reference/api
     - theme: alt
       text: Проект на GitHub
       link: https://github.com/toNNtr/white-phoenix
