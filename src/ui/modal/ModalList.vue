@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { openedModals } from "./useModal";
+import { useOpenedModals } from "./useModal";
+
+const openedModals = useOpenedModals();
 </script>
 
 <template>

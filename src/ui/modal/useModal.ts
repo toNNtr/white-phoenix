@@ -13,17 +13,19 @@ export type Modal<T extends Record<string | number | symbol, unknown> = Record<s
         >;
     };
 
-export const modalList = shallowRef<Modal<Record<string | number | symbol, unknown>>[]>([]);
+export const modalList: Modal<Record<string | number | symbol, unknown>>[] = [];
 
-export const openedModals = computed(() => {
-    return modalList.value.filter((modal) => modal.isOpened.value);
-});
+export function useOpenedModals() {
+    return computed(() => modalList.filter((modal) => modal.isOpened.value));
+}
 
-export const hasOpenedModals = computed(
-    () => modalList.value.filter((modal) => modal.isOpened.value).length,
-);
+export function useHasOpenedModals() {
+    return computed(() => modalList.filter((modal) => modal.isOpened.value).length);
+}
 
 export function closeTopModal(reason?: ECloseReason) {
+    const openedModals = useOpenedModals();
+
     if (openedModals.value.length) {
         openedModals.value[openedModals.value.length - 1]?.close({ reason });
     }
@@ -40,7 +42,7 @@ export function useModal<T extends Record<string | number | symbol, unknown>>(
     };
 
     // @ts-expect-error Пока не знаю как решить это место.
-    modalList.value.push(modal);
+    modalList.push(modal);
 
     return modalPopup;
 }
