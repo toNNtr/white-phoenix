@@ -5,11 +5,12 @@ description: Компонент, который отображает откры�
 <script setup lang="ts">
 import { ECloseReason } from "@/api/popup";
 import { BaseButton } from "@/ui/button";
-import { ModalList, useModal, hasOpenedModals, closeTopModal } from "@/ui/modal";
+import { ModalList, useModal, useHasOpenedModals, closeTopModal } from "@/ui/modal";
 import { modalExample } from "@docs/components";
 
 const announcementModal = useModal(modalExample.ModalExample);
 const announcementWithCloseModal = useModal(modalExample.ModalWithCloseExample);
+const hasOpenedModals = useHasOpenedModals();
 
 function showAnnouncement() {
     if (!announcementModal.isOpened.value) {
@@ -38,13 +39,14 @@ import { ModalList } from "@tonntr/ui/modal";
 
 ```vue
 <script setup>
-import { ModalList, useModal, hasOpenedModals, closeTopModal } from "@tonntr/ui/modal";
+import { ModalList, useModal, useHasOpenedModals, closeTopModal } from "@tonntr/ui/modal";
 import { ECloseReason } from "@tonntr/api/popup";
 
 // Компонент, который будет отображаться в качестве модального окна
 import { ModalExample } from "...";
 
 const announcementModal = useModal(ModalExample);
+const hasOpenedModals = useHasOpenedModals();
 
 function showAnnouncement() {
   if (!announcementModal.isOpened.value) {
@@ -105,14 +107,11 @@ function showAnnouncement() {
 Модальное окно может закрыть само себя при помощи события `close`.
 
 ```vue-html
-<div class="backdrop" v-if="hasOpenedModals" @click="closeTopModal(ECloseReason.BACKDROP_CLICK)">
 <ModalList>
     <template #default="{ modal }">
-    <component :is="modal.component" @close="modal.close"/>
+        <component :is="modal.component" @close="modal.close"/>
     </template>
 </ModalList>
-</div>
-<BaseButton @click.stop="showAnnouncement">Показать окно</BaseButton>
 ```
 
 **Результат**
@@ -147,7 +146,7 @@ function showAnnouncement() {
 
 - component - Компонент vue, который отрисовывается в данный момент.
 - id - (string) Идентификатор модального окна
-- type - (string) Тип модального окна. Может быть использовано для обозначения содержимого или назначения.
+- type - (string) Тип модального окна. Одновременно может быть открыто только одно модальное окно каждого типа. Если открывается новое окно, а другое с таким же типом уже было открыто, открытое окно закроется с причиной `ECloseReason.ANOTHER_OPENED`.
 - isOpened - (реактивная ссылка типа boolean) Отображается ли модальное окно в данный момент.
 
 Также доступны другие параметры и методы элемента `Popup`.
