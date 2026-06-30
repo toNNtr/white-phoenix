@@ -1,29 +1,36 @@
-# vue-components-starter
+# White Phoenix Library
 
-A starter for creating a Vue component library.
+This is UI and API library for Vue applications.
 
-## Development
+> [!WARNING]
+> This library is still in development and may have breaking changes through minor versions.
 
-- Install dependencies:
+## Scripts
+
+### Install
 
 ```bash
 npm install
 ```
 
-- Run the playground:
-
-```bash
-npm run playground
-```
-
-- Run the unit tests:
-
-```bash
-npm run test
-```
-
-- Build the library:
+### Build library
 
 ```bash
 npm run build
 ```
+
+### Run documentation dev-server
+
+```bash
+npm run docs:dev
+```
+
+### Build documentation
+
+```bash
+npm run docs:build
+```
+
+## Documentation
+
+Documentation is available here: https://tonntr.github.io/white-phoenix/
