@@ -52,6 +52,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
 }
 
 .catalog > header.catalog__header {
@@ -66,7 +67,7 @@ onMounted(() => {
     display: grid;
     column-gap: 10px;
     row-gap: 10px;
-    grid-template-columns: repeat(6, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     grid-auto-flow: row;
     grid-auto-rows: 200px;
 }
