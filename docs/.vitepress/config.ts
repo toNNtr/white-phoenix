@@ -20,26 +20,29 @@ export default defineConfig({
         ],
 
         sidebar: {
-            "/reference/ui/": [
-                {
-                    text: "Ввод",
-                    items: [{ text: "BaseButton", link: "reference/ui/base-button" }],
-                },
-                {
-                    text: "Композиция",
-                    items: [{ text: "ButtonGroup", link: "reference/ui/button-group" }],
-                },
-                {
-                    text: "Представление",
-                    items: [
-                        { text: "BaseCatalog", link: "reference/ui/base-catalog" },
-                        { text: "CardMedium", link: "reference/ui/card-medium" },
-                        { text: "CardSmall", link: "reference/ui/card-small" },
-                        { text: "DropdownBase", link: "reference/ui/dropdown-base" },
-                        { text: "ModalList", link: "reference/ui/modal-list" },
-                    ],
-                },
-            ],
+            "/reference/ui/": {
+                base: "/reference/ui/",
+                items: [
+                    {
+                        text: "Ввод",
+                        items: [{ text: "BaseButton", link: "base-button" }],
+                    },
+                    {
+                        text: "Композиция",
+                        items: [{ text: "ButtonGroup", link: "button-group" }],
+                    },
+                    {
+                        text: "Представление",
+                        items: [
+                            { text: "BaseCatalog", link: "base-catalog" },
+                            { text: "CardMedium", link: "card-medium" },
+                            { text: "CardSmall", link: "card-small" },
+                            { text: "DropdownBase", link: "dropdown-base" },
+                            { text: "ModalList", link: "modal-list" },
+                        ],
+                    },
+                ],
+            },
             "reference/api/": [],
         },
 
