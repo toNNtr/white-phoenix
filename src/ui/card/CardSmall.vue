@@ -49,6 +49,7 @@ const cardClass = computed(() => ({
 
     background-color: #fff;
     border-radius: 16px;
+    overflow: hidden;
 }
 
 .card > .card__inner {

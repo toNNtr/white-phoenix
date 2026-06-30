@@ -41,6 +41,7 @@ const {
 
     background-color: #fff;
     border-radius: 12px;
+    overflow: hidden;
 }
 
 .card > .card__inner {
