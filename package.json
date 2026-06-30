@@ -1,7 +1,7 @@
 {
   "name": "@tonntr/white-phoenix",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "UI, helpers and utility library for phoenix project.",
   "author": "savkov.andrei@gmail.com",
   "license": "MIT",
