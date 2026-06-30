@@ -50,6 +50,10 @@ const { buttonClass, click } = useButton({ type, text, variety, emit });
     cursor: pointer;
 }
 
+.button-replace:hover > :slotted(*) {
+    color: inherit;
+}
+
 .button-replace > :slotted(*) {
     text-decoration: none;
 }
