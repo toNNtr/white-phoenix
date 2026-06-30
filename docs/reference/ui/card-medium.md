@@ -61,7 +61,7 @@ function toggleOverlay() {
       <BaseButton @click="toggleOverlay">Переключить оверлей</BaseButton>
     </template>
     <template #overlay>
-      <ButtonGroup direction="vertical" style="gap: 8px;">
+      <ButtonGroup direction="vertical" style="gap: 2px; justify-content: space-between;">
         <BaseButton v-for="i in 2">Действие {{ i }}</BaseButton>
         <BaseButton @click="toggleOverlay">Скрыть оверлей</BaseButton>
       </ButtonGroup>
@@ -82,7 +82,7 @@ function toggleOverlay() {
             <BaseButton @click="toggleOverlay">Переключить оверлей</BaseButton>
         </template>
         <template #overlay>
-            <ButtonGroup direction="vertical" style="gap: 8px;">
+            <ButtonGroup direction="vertical" style="gap: 2px; justify-content: space-between;">
                 <BaseButton v-for="i in 2">Действие {{ i }}</BaseButton>
                 <BaseButton @click="toggleOverlay">Скрыть оверлей</BaseButton>
             </ButtonGroup>

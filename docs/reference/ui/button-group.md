@@ -102,7 +102,25 @@ import { MyComponent } from "...";
     </BaseButton>
 </ButtonGroup>
 
+<ButtonGroup direction="horizontal" rounded>
+    <BaseButton
+        v-for="i in 5"
+        replace
+    >
+        <a href="#" target="_blank">Страница {{ i }}</a>
+    </BaseButton>
+</ButtonGroup>
+
 <ButtonGroup direction="vertical">
+    <BaseButton
+        v-for="i in 5"
+        replace
+    >
+        <a href="#" target="_blank">Страница {{ i }}</a>
+    </BaseButton>
+</ButtonGroup>
+
+<ButtonGroup direction="vertical" rounded>
     <BaseButton
         v-for="i in 5"
         replace
@@ -123,7 +141,23 @@ import { MyComponent } from "...";
             <a href="#" target="_blank">Страница {{ i }}</a>
         </BaseButton>
     </ButtonGroup>
+    <ButtonGroup direction="horizontal" rounded>
+        <BaseButton
+            v-for="i in 5"
+            replace
+        >
+            <a href="#" target="_blank">Страница {{ i }}</a>
+        </BaseButton>
+    </ButtonGroup>
     <ButtonGroup direction="vertical">
+        <BaseButton
+            v-for="i in 5"
+            replace
+        >
+            <a href="#" target="_blank">Страница {{ i }}</a>
+        </BaseButton>
+    </ButtonGroup>
+    <ButtonGroup direction="vertical" rounded>
         <BaseButton
             v-for="i in 5"
             replace
