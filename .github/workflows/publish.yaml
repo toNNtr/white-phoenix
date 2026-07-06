@@ -9,7 +9,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
         with:
           node-version: "26.x"
@@ -17,7 +17,7 @@ jobs:
       - run: |
           npm run typecheck
           npm run build
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: build-result
           path: dist
@@ -29,7 +29,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       # Setup .npmrc file to publish to GitHub Packages
       - uses: actions/setup-node@v6
         with:
@@ -37,7 +37,7 @@ jobs:
           registry-url: "https://npm.pkg.github.com"
           scope: "@tonntr"
           package-manager-cache: false
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: build-result
           path: dist
@@ -52,14 +52,14 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       # Setup .npmrc file to publish to NPM
       - uses: actions/setup-node@v6
         with:
           node-version: "26.x"
           registry-url: "https://registry.npmjs.org"
           package-manager-cache: false
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: build-result
           path: dist
