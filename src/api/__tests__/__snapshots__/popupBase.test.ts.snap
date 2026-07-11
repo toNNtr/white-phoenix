@@ -1,0 +1,49 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Popup core > clears it's state on destroy 1`] = `
+{
+  "close": [Function],
+  "destroy": [Function],
+  "id": StringMatching /\\.\\+/,
+  "isOpened": false,
+  "onBeforeDestroyed": [Function],
+  "onClosed": [Function],
+  "onOpened": [Function],
+  "onStateChanged": [Function],
+  "open": [Function],
+  "toggle": [Function],
+  "type": undefined,
+}
+`;
+
+exports[`Popup core > creates new popup with default props 1`] = `
+{
+  "close": [Function],
+  "destroy": [Function],
+  "id": StringMatching /\\.\\+/,
+  "isOpened": false,
+  "onBeforeDestroyed": [Function],
+  "onClosed": [Function],
+  "onOpened": [Function],
+  "onStateChanged": [Function],
+  "open": [Function],
+  "toggle": [Function],
+  "type": undefined,
+}
+`;
+
+exports[`Popup core > creates new popup with provided props 1`] = `
+{
+  "close": [Function],
+  "destroy": [Function],
+  "id": StringMatching /\\.\\+/,
+  "isOpened": true,
+  "onBeforeDestroyed": [Function],
+  "onClosed": [Function],
+  "onOpened": [Function],
+  "onStateChanged": [Function],
+  "open": [Function],
+  "toggle": [Function],
+  "type": "popup_for_test_please_work",
+}
+`;
