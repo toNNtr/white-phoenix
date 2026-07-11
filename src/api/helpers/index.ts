@@ -12,3 +12,9 @@ export function useHandleClickOutside(
         }
     };
 }
+
+let lastId = 0;
+
+export function useId() {
+    return `${lastId++}`;
+}
