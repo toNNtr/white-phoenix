@@ -1,20 +1,25 @@
 <script setup lang="ts">
 import { usePopup } from "@/api/popup";
-import { computed, onMounted, useId, useTemplateRef } from "vue";
+import { computed, onMounted, onUnmounted, useId, useTemplateRef } from "vue";
 
 const bodyWrapperRef = useTemplateRef("bodyWrapperRef");
 const dropdown = usePopup();
 const uid = useId();
 const dropdownBodyId = `dropdown-body-${uid}`;
+const isOpened = dropdown.isOpenedRef;
 
-const dropdownClass = computed(() => ({ dropdown_expanded: dropdown.isOpened.value }));
-const dropdownControlsClass = computed(() => ({ "drop-shadow": dropdown.isOpened.value }));
-const dropdownBodyClass = computed(() => ({ "drop-shadow": dropdown.isOpened.value }));
+const dropdownClass = computed(() => ({ dropdown_expanded: isOpened.value }));
+const dropdownControlsClass = computed(() => ({ "drop-shadow": isOpened.value }));
+const dropdownBodyClass = computed(() => ({ "drop-shadow": isOpened.value }));
 
 onMounted(() => {
     if (bodyWrapperRef.value) {
         dropdown.assignElement(bodyWrapperRef.value);
     }
+});
+
+onUnmounted(() => {
+    dropdown.destroy();
 });
 
 defineExpose({ toggle: dropdown.toggle, open: dropdown.open, close: dropdown.close });
@@ -23,11 +28,7 @@ defineExpose({ toggle: dropdown.toggle, open: dropdown.open, close: dropdown.clo
 <template>
     <div ref="currentRootRef" class="dropdown" :class="dropdownClass">
         <div class="dropdown__controls" :class="dropdownControlsClass">
-            <slot
-                name="controls"
-                :dropdown-body-id="dropdownBodyId"
-                :is-opened="dropdown.isOpened.value"
-            ></slot>
+            <slot name="controls" :dropdown-body-id="dropdownBodyId" :is-opened="isOpened"></slot>
         </div>
         <div
             ref="bodyWrapperRef"
