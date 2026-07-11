@@ -13,15 +13,11 @@ const announcementWithCloseModal = useModal(modalExample.ModalWithCloseExample);
 const hasOpenedModals = useHasOpenedModals();
 
 function showAnnouncement() {
-    if (!announcementModal.isOpened.value) {
-        announcementModal.open();
-    }
+    announcementModal.open();
 }
 
 function showAnnouncementWithClose() {
-    if (!announcementWithCloseModal.isOpened.value) {
-        announcementWithCloseModal.open();
-    }
+    announcementWithCloseModal.open();
 }
 </script>
 
@@ -49,9 +45,7 @@ const announcementModal = useModal(ModalExample);
 const hasOpenedModals = useHasOpenedModals();
 
 function showAnnouncement() {
-  if (!announcementModal.isOpened.value) {
-    announcementModal.open();
-  }
+  announcementModal.open();
 }
 </script>
 
