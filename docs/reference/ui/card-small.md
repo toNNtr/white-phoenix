@@ -55,7 +55,7 @@ function toggleOverlay() {
   <CardSmall
     title="Название страницы"
     description="Очень короткое описание"
-    :overlayVisible="popup.isOpened.value"
+    :overlayVisible="popup.isOpenedRef.value"
   >
     <template #end>
       <BaseButton @click="toggleOverlay">Переключить оверлей</BaseButton>
@@ -76,7 +76,7 @@ function toggleOverlay() {
     <CardSmall
         title="Название страницы"
         description="Очень короткое описание"
-        :overlayVisible="popup.isOpened.value"
+        :overlayVisible="popup.isOpenedRef.value"
     >
         <template #end>
             <BaseButton @click="toggleOverlay">Переключить оверлей</BaseButton>

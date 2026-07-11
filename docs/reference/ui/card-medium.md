@@ -55,7 +55,7 @@ function toggleOverlay() {
   <CardMedium
     title="Шаблон страницы"
     description="Шаблон главной страницы сайта"
-    :overlayVisible="popup.isOpened.value"
+    :overlayVisible="popup.isOpenedRef.value"
   >
     <template #headerTop>
       <BaseButton @click="toggleOverlay">Переключить оверлей</BaseButton>
@@ -76,7 +76,7 @@ function toggleOverlay() {
     <CardMedium
         title="Шаблон страницы"
         description="Шаблон главной страницы сайта"
-        :overlayVisible="popup.isOpened.value"
+        :overlayVisible="popup.isOpenedRef.value"
     >
         <template #headerTop>
             <BaseButton @click="toggleOverlay">Переключить оверлей</BaseButton>
