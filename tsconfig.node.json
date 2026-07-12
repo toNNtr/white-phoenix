@@ -17,5 +17,5 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true
   },
-  "include": ["tsdown.config.*", "vite.config.*", "eslint.config.*"]
+  "include": ["tsdown.config.*", "vite.config.*", "vitest.config.*", "eslint.config.*"]
 }

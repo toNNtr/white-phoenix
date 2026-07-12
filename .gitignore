@@ -5,3 +5,5 @@ dist
 .vscode/*
 docs/.vitepress/dist
 docs/.vitepress/cache
+.vitest-attachments
+src/**/__tests__/__screenshots__/*
