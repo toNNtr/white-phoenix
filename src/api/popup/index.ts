@@ -47,9 +47,7 @@ export function usePopup<T extends Popup>(props?: {
     };
 
     if (props?.htmlElement) {
-        handleClickOutside = useHandleClickOutside(props.htmlElement, () =>
-            popupBase.close({ reason: ECloseReason.BACKDROP_CLICK }),
-        );
+        assignElement(props.htmlElement);
     }
     popupBase.onBeforeDestroyed(unhandleClickOutside);
     popupBase.onOpened(() => {
@@ -58,7 +56,10 @@ export function usePopup<T extends Popup>(props?: {
         }
     });
     popupBase.onClosed(unhandleClickOutside);
-    popupBase.onStateChanged(() => (popup.isOpenedRef.value = popupBase.isOpened));
+    popupBase.onStateChanged(() => {
+        popup.isOpenedRef.value = popupBase.isOpened;
+        popup.isOpened = popupBase.isOpened;
+    });
 
     const popup: Popup = {
         ...popupBase,
