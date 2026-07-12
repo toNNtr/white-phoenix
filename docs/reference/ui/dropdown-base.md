@@ -152,9 +152,9 @@ function openDropdown() {
 
 <div class="demo demo_darkened" style="height: 150px;">
     <DropdownBase ref="reasonExample1">
-        <template #controls>
+        <template #controls="{ isOpened }">
         <ButtonGroup rounded style="gap: 1px;">
-            <BaseButton @click.stop="openDropdownReason1" style="width: 150px;">
+            <BaseButton @click.stop="!isOpened && openDropdownReason1()" style="width: 150px;">
                 Раскрыть
             </BaseButton>
             <BaseButton @click.stop="closeDropdownReason1" style="width: 150px;">
