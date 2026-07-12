@@ -1,5 +1,5 @@
 export function useHandleClickOutside(
-    htmlElement: HTMLElement,
+    htmlElement: Element | HTMLElement,
     callback: (event?: MouseEvent) => unknown,
 ) {
     return (event: MouseEvent) => {
