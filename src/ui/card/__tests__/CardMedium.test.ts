@@ -1,7 +1,6 @@
 import CardMedium from "../CardMedium.vue";
 import { expect, test } from "vitest";
 import { render } from "vitest-browser-vue";
-import { ref } from "vue";
 import TestCardMediumComponent from "./TestCardMediumComponent.vue";
 
 test("creates card with default props", async () => {
