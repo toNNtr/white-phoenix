@@ -22,7 +22,12 @@ onUnmounted(() => {
     dropdown.destroy();
 });
 
-defineExpose({ toggle: dropdown.toggle, open: dropdown.open, close: dropdown.close });
+defineExpose({
+    popup: dropdown,
+    toggle: dropdown.toggle,
+    open: dropdown.open,
+    close: dropdown.close,
+});
 </script>
 
 <template>
