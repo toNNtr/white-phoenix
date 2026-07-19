@@ -30,7 +30,7 @@ export function closeTopModal(reason?: ECloseReason) {
     }
 }
 
-export function useModal<T extends Modal>(component: T["component"], type?: string) {
+export function useModal<T extends Modal>(component: T["component"], type?: string): Modal {
     const modalPopup = usePopup<T>({ type });
     const modal = {
         ...modalPopup,
@@ -46,5 +46,5 @@ export function useModal<T extends Modal>(component: T["component"], type?: stri
 
     modalList.push(modal);
 
-    return modalPopup;
+    return modal;
 }
