@@ -3,3 +3,6 @@ export type GetParameters<T> = T extends (...args: infer P) => unknown ? P : nev
 export type ValueOf<T> = T[keyof T];
 export type OptionalArray<T extends unknown[]> =
     T extends Array<infer I> ? (I extends unknown ? [] : Array<I>) : [];
+export type RecursivePartial<T> = {
+    [K in keyof T]?: RecursivePartial<T[K]>;
+};
