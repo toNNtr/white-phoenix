@@ -43,7 +43,7 @@
   "devDependencies": {
     "@tonntr/rolldown-plugin-svg-loader": "^0.0.1",
     "@tsconfig/node22": "^22.0.5",
-    "@tsdown/css": "^0.22.3",
+    "@tsdown/css": "^0.22.14",
     "@types/jsdom": "^28.0.1",
     "@types/node": "^26.0.1",
     "@vitejs/plugin-vue": "^6.0.7",
