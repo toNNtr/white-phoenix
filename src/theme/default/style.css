@@ -1,0 +1,23 @@
+:root {
+    --wp-color-dw: #eeeff2;
+    --wp-color-gray-10: #16181d;
+    --wp-color-gray-20: #2d3039;
+    --wp-color-gray-33: #4a4f61;
+    --wp-color-gray-40: #5a6072;
+    --wp-color-gray-60: #8d93a5;
+    --wp-color-gray-80: #c6c9d2;
+
+    --wp-color-indigo-1: #394d88;
+    --wp-color-indigo-2: #6182e5;
+    --wp-color-indigo-3: #2955d9;
+
+    --wp-color-yellow-1: #f2c269;
+    --wp-color-yellow-2: #f28d52;
+
+    --wp-color-red-1: #99435e;
+    --wp-color-red-2: #ca68b9;
+
+    --wp-color-brand-1: var(--wp-color-indigo-1);
+    --wp-color-brand-2: var(--wp-color-indigo-2);
+    --wp-color-brand-3: var(--wp-color-indigo-3);
+}
