@@ -12,6 +12,8 @@ import * as icon from "@/ui/icon";
 import * as modal from "@/ui/modal";
 import * as catalog from "@/ui/catalog";
 
+export * as theme from "@/theme";
+
 export type { common, utility };
 export const api = { helpers, popup };
 export const ui = { button, buttonGroup, card, dropdown, icon, modal, catalog };

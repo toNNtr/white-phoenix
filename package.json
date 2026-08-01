@@ -18,6 +18,7 @@
     "./api/*": "./dist/api/*/index.js",
     "./types/*": "./dist/types/*/index.js",
     "./ui/*": "./dist/ui/*/index.js",
+    "./theme": "./dist/theme.js",
     "./package.json": "./package.json",
     "./style.css": "./dist/style.css"
   },
