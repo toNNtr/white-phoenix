@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { type ButtonProps } from "./types";
 import { useButton } from "./useButton";
+import { useTheme } from "@/theme";
 
 const emit = defineEmits(["click"]);
 const {
@@ -11,6 +12,7 @@ const {
 } = defineProps<ButtonProps>();
 
 const { buttonClass, click } = useButton({ type, text, variety, emit });
+const theme = useTheme();
 </script>
 
 <template>
@@ -41,7 +43,7 @@ const { buttonClass, click } = useButton({ type, text, variety, emit });
 
     padding: 10px 16px;
     border: unset;
-    border-radius: 12px;
+    border-radius: v-bind("theme.shape.border.radius.M");
 
     font-family: inherit;
     font-size: inherit;
@@ -73,38 +75,56 @@ const { buttonClass, click } = useButton({ type, text, variety, emit });
 
 .button.button_primary,
 .button-replace.button_primary {
-    --color-button-text-normal: #fff;
-    --color-button-text-hover: #fff;
-    --color-button-text-active: #fff;
-    --color-button-text-disabled: #fff;
+    --wp-color-button-text-normal: #fff;
+    --wp-color-button-text-hover: #fff;
+    --wp-color-button-text-active: #fff;
+    --wp-color-button-text-disabled: #fff;
 
-    --color-button-bg-normal: var(--wp-color-gray-60);
-    --color-button-bg-hover: var(--wp-color-gray-33);
-    --color-button-bg-active: var(--wp-color-gray-40);
-    --color-button-bg-disabled: var(--wp-color-gray-60);
+    --wp-color-button-bg-normal: var(--wp-color-brand-3);
+    --wp-color-button-bg-hover: var(--wp-color-brand-2);
+    --wp-color-button-bg-active: var(--wp-color-brand-3);
+    --wp-color-button-bg-disabled: var(--wp-color-gray-60);
+}
+
+.button.button_outline,
+.button-replace.button_outline {
+    --wp-color-button-text-normal: var(--wp-color-gray-33);
+    --wp-color-button-text-hover: #fff;
+    --wp-color-button-text-active: #fff;
+    --wp-color-button-text-disabled: #fff;
+
+    --wp-color-button-bg-normal: #fff;
+    --wp-color-button-bg-hover: var(--wp-color-brand-2);
+    --wp-color-button-bg-active: var(--wp-color-brand-3);
+    --wp-color-button-bg-disabled: var(--wp-color-gray-60);
+
+    --wp-color-button-border-normal: var(--wp-color-brand-2);
 }
 
 .button,
 .button-replace {
-    border-radius: 12px;
-    background-color: var(--color-button-bg-normal);
-    color: var(--color-button-text-normal);
+    background-color: var(--wp-color-button-bg-normal);
+    border: 1px solid var(--wp-color-button-border-normal, var(--wp-color-button-bg-normal));
+    color: var(--wp-color-button-text-normal);
 }
 
 .button:hover,
 .button-replace:hover {
-    background-color: var(--color-button-bg-hover);
-    color: var(--color-button-text-hover);
+    background-color: var(--wp-color-button-bg-hover);
+    border-color: var(--wp-color-button-border-hover, var(--wp-color-button-bg-hover));
+    color: var(--wp-color-button-text-hover);
 }
 .button:active,
 .button-replace:active {
-    background-color: var(--color-button-bg-active);
-    color: var(--color-button-text-active);
+    background-color: var(--wp-color-button-bg-active);
+    border-color: var(--wp-color-button-border-active, var(--wp-color-button-bg-active));
+    color: var(--wp-color-button-text-active);
 }
 .button:disabled,
 .button-replace[disabled] {
-    background-color: var(--color-button-bg-disabled);
-    color: var(--color-button-text-disabled);
+    background-color: var(--wp-color-button-bg-disabled);
+    border-color: var(--wp-color-button-border-disabled, var(--wp-color-button-bg-disabled));
+    color: var(--wp-color-button-text-disabled);
 }
 
 .button-replace[disabled],
@@ -117,5 +137,6 @@ const { buttonClass, click } = useButton({ type, text, variety, emit });
     outline-color: var(--wp-color-gray-10);
     outline-width: 2px;
     outline-offset: -2px;
+    outline-style: solid;
 }
 </style>
