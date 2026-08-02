@@ -6,3 +6,6 @@ export type OptionalArray<T extends unknown[]> =
 export type RecursivePartial<T> = {
     [K in keyof T]?: RecursivePartial<T[K]>;
 };
+export type GetKeyByValue<T, V> = {
+    [K in keyof T]: T[K] extends V ? K : never;
+}[keyof T];
