@@ -43,7 +43,6 @@ const theme = useTheme();
 
     padding: 10px 16px;
     border: unset;
-    border-radius: v-bind("theme.shape.border.radius.M");
 
     font-family: inherit;
     font-size: inherit;
@@ -105,6 +104,7 @@ const theme = useTheme();
 .button-replace {
     background-color: var(--wp-color-button-bg-normal);
     border: 1px solid var(--wp-color-button-border-normal, var(--wp-color-button-bg-normal));
+    border-radius: v-bind("theme.shape.border.radius.M");
     color: var(--wp-color-button-text-normal);
 }
 
