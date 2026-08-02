@@ -25,5 +25,17 @@ export default {
         fontSize: "",
         fontWeight: "",
     },
-    color: {},
+    color: {
+        gray1: "--wp-color-gray-10",
+        gray2: "--wp-color-gray-20",
+        gray3: "--wp-color-gray-33",
+        gray4: "--wp-color-gray-40",
+        gray5: "--wp-color-gray-50",
+        gray6: "--wp-color-gray-60",
+        gray7: "--wp-color-gray-70",
+        gray8: "--wp-color-gray-80",
+        brand1: "--wp-color-brand-1",
+        brand2: "--wp-color-brand-2",
+        brand3: "--wp-color-brand-3",
+    },
 } as ThemeConfig;

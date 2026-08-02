@@ -15,5 +15,6 @@ import * as catalog from "@/ui/catalog";
 export * as theme from "@/theme";
 
 export type { common, utility };
+export type * from "@/theme/types";
 export const api = { helpers, popup };
 export const ui = { button, buttonGroup, card, dropdown, icon, modal, catalog };
