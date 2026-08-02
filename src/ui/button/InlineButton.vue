@@ -24,7 +24,7 @@ const { click } = useButton({ type, text, emit });
     outline: none;
 }
 .inline-button:focus-visible {
-    outline-color: var(--color-gray-10);
+    outline-color: var(--wp-color-gray-10);
     outline-width: thin;
     outline-offset: 2px;
 }

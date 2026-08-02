@@ -133,16 +133,6 @@
  * UI Lib
  * -------------------------------------------------------------------------- */
 
-:root {
-    --color-dw: #eeeff2;
-    --color-gray-10: #16181d;
-    --color-gray-20: #2d3039;
-    --color-gray-33: #4a4f61;
-    --color-gray-40: #5a6072;
-    --color-gray-60: #8d93a5;
-    --color-gray-80: #c6c9d2;
-}
-
 .demo {
     display: flex;
     flex-direction: row;
@@ -152,14 +142,14 @@
     gap: 12px;
 
     padding: 16px;
-    border: 1px solid var(--color-gray-80);
+    border: 1px solid var(--wp-color-gray-80);
     border-radius: 12px;
     background-color: #fff;
-    color: var(--color-gray-20);
+    color: var(--wp-color-gray-20);
 }
 
 .demo.demo_darkened {
-    background-color: var(--color-dw);
+    background-color: var(--wp-color-dw);
 }
 
 .demo > * {

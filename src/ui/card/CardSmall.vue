@@ -84,12 +84,12 @@ const cardClass = computed(() => ({
 
     padding: 4px 8px 4px 16px;
 
-    background: linear-gradient(to right, transparent, var(--color-gray-80) 10px);
+    background: linear-gradient(to right, transparent, var(--wp-color-gray-80) 10px);
     border-top-right-radius: 16px;
     border-bottom-right-radius: 16px;
 }
 
 .card.card_s.card_overlay-visible {
-    background-color: var(--color-gray-80);
+    background-color: var(--wp-color-gray-80);
 }
 </style>

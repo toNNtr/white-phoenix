@@ -70,7 +70,7 @@ defineExpose({
     display: none;
     width: 100%;
 
-    background-color: var(--color-gray-80);
+    background-color: var(--wp-color-gray-80);
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
 }
