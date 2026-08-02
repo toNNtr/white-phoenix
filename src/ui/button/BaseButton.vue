@@ -78,10 +78,10 @@ const { buttonClass, click } = useButton({ type, text, variety, emit });
     --color-button-text-active: #fff;
     --color-button-text-disabled: #fff;
 
-    --color-button-bg-normal: var(--color-gray-60);
-    --color-button-bg-hover: var(--color-gray-33);
-    --color-button-bg-active: var(--color-gray-40);
-    --color-button-bg-disabled: var(--color-gray-60);
+    --color-button-bg-normal: var(--wp-color-gray-60);
+    --color-button-bg-hover: var(--wp-color-gray-33);
+    --color-button-bg-active: var(--wp-color-gray-40);
+    --color-button-bg-disabled: var(--wp-color-gray-60);
 }
 
 .button,
@@ -114,7 +114,7 @@ const { buttonClass, click } = useButton({ type, text, variety, emit });
 
 .button:focus-visible,
 .button-replace:focus-visible {
-    outline-color: var(--color-gray-10);
+    outline-color: var(--wp-color-gray-10);
     outline-width: 2px;
     outline-offset: -2px;
 }
