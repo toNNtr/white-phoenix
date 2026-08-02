@@ -79,10 +79,16 @@ const theme = useTheme();
     --wp-color-button-text-active: #fff;
     --wp-color-button-text-disabled: #fff;
 
-    --wp-color-button-bg-normal: var(--wp-color-brand-3);
-    --wp-color-button-bg-hover: var(--wp-color-brand-2);
-    --wp-color-button-bg-active: var(--wp-color-brand-3);
-    --wp-color-button-bg-disabled: var(--wp-color-gray-60);
+    --wp-color-button-bg-normal: v-bind(
+        "`var(${theme.color.brand3})` || 'var(--wp-color-brand-3)'"
+    );
+    --wp-color-button-bg-hover: v-bind("`var(${theme.color.brand2})` || 'var(--wp-color-brand-2)'");
+    --wp-color-button-bg-active: v-bind(
+        "`var(${theme.color.brand3})` || 'var(--wp-color-brand-3)'"
+    );
+    --wp-color-button-bg-disabled: v-bind(
+        "`var(${theme.color.gray6})` || 'var(--wp-color-gray-60)'"
+    );
 }
 
 .button.button_outline,
