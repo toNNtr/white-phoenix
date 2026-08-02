@@ -1,16 +1,6 @@
 import { ECloseReason, usePopup, type Popup, type PopupCloseExtraParams } from "@/api/popup";
-import { computed, type ComponentOptionsMixin, type DefineComponent } from "vue";
-
-export type Modal<T extends PopupCloseExtraParams = Record<string, unknown>> = Popup<T> & {
-    // prettier-ignore
-    component: DefineComponent<
-            // eslint-disable-next-line
-            {},{},{},{},{},
-            ComponentOptionsMixin,
-            ComponentOptionsMixin,
-            { close: (params?: Partial<{ reason: ECloseReason } & T>) => unknown }
-        >;
-};
+import { computed } from "vue";
+import { type Modal } from "./types";
 
 export const modalList: Modal[] = [];
 
@@ -30,7 +20,10 @@ export function closeTopModal(reason?: ECloseReason) {
     }
 }
 
-export function useModal<T extends Modal>(component: T["component"], type?: string): Modal {
+export function useModal<T extends PopupCloseExtraParams>(
+    component: Modal<T>["component"],
+    type?: string,
+): Modal<T> {
     const modalPopup = usePopup<T>({ type });
     const modal = {
         ...modalPopup,

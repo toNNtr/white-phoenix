@@ -5,6 +5,7 @@ import {
     usePopup as usePopupBase,
     type PopupCloseExtraParams,
     type PopupBase,
+    type PopupCloseParams,
 } from "./popupBase";
 
 export * from "./popupBase";
@@ -17,11 +18,11 @@ export interface Popup<
     assignElement: (newHtmlElement: HTMLElement) => void;
 }
 
-export function usePopup<T extends Popup>(props?: {
+export function usePopup<T extends PopupCloseExtraParams>(props?: {
     htmlElement?: HTMLElement;
     isOpened?: boolean;
     type?: Popup["type"];
-}): Popup {
+}): Popup<T> {
     const popupBase = usePopupBase<T>({ isOpened: props?.isOpened, type: props?.type });
     let handleClickOutside: ReturnType<typeof useHandleClickOutside> | null;
 
@@ -35,13 +36,13 @@ export function usePopup<T extends Popup>(props?: {
         if (popupBase.isOpened) {
             unhandleClickOutside();
             handleClickOutside = useHandleClickOutside(newHtmlElement, () =>
-                popupBase.close({ reason: ECloseReason.BACKDROP_CLICK }),
+                popupBase.close({ reason: ECloseReason.BACKDROP_CLICK } as PopupCloseParams<T>),
             );
 
             document.addEventListener("click", handleClickOutside);
         } else {
             handleClickOutside = useHandleClickOutside(newHtmlElement, () =>
-                popupBase.close({ reason: ECloseReason.BACKDROP_CLICK }),
+                popupBase.close({ reason: ECloseReason.BACKDROP_CLICK } as PopupCloseParams<T>),
             );
         }
     };
@@ -61,7 +62,7 @@ export function usePopup<T extends Popup>(props?: {
         popup.isOpened = popupBase.isOpened;
     });
 
-    const popup: Popup = {
+    const popup: Popup<T> = {
         ...popupBase,
         isOpenedRef: ref(popupBase.isOpened),
         assignElement,

@@ -1,4 +1,4 @@
-import type { ValueOf } from "@/types/utility";
+import type { ValueOf, GetKeyByValue } from "@/types/utility";
 import { useId } from "../helpers";
 
 export const ECloseReason = {
@@ -19,22 +19,35 @@ export const EPopupEventType = {
 } as const;
 export type EPopupEventType = ValueOf<typeof EPopupEventType>;
 
-export type ExternalHandlerCallback = () => void;
-export type LifecycleHook = (callback: ExternalHandlerCallback) => void;
+type ExternalHandlerArgs<T extends EPopupEventType> = {
+    OPEN: [];
+    CLOSE: [reason?: ECloseReason];
+    STATE_CHANGE: [isNowOpened: boolean, reason?: ECloseReason];
+    BEFORE_DESTROY: [];
+}[GetKeyByValue<typeof EPopupEventType, T>];
+
+export type ExternalHandlerCallback<T extends Array<unknown> = []> = (...args: T) => void;
+export type LifecycleHook<T extends Array<unknown> = []> = (
+    callback: ExternalHandlerCallback<T>,
+) => void;
 
 export interface PopupCloseExtraParams {}
+export type PopupCloseParams<T extends PopupCloseExtraParams = PopupCloseExtraParams> =
+    Partial<T> & {
+        reason?: ECloseReason;
+    };
 
-export interface PopupBase<T extends PopupCloseExtraParams = Record<string, unknown>> {
+export interface PopupBase<T extends PopupCloseExtraParams = PopupCloseExtraParams> {
     id: string;
     type?: string;
     isOpened: boolean;
-    open: () => Promise<{ reason: ECloseReason } & Partial<T>>;
-    close: (params?: Partial<{ reason: ECloseReason } | T>) => void;
+    open: () => Promise<PopupCloseParams<T>>;
+    close: (params?: PopupCloseParams<T>) => void;
     toggle: () => void;
     destroy: () => void;
     onOpened: LifecycleHook;
-    onClosed: LifecycleHook;
-    onStateChanged: LifecycleHook;
+    onClosed: LifecycleHook<ExternalHandlerArgs<(typeof EPopupEventType)["CLOSE"]>>;
+    onStateChanged: LifecycleHook<ExternalHandlerArgs<(typeof EPopupEventType)["STATE_CHANGE"]>>;
     onBeforeDestroyed: LifecycleHook;
 }
 
@@ -63,30 +76,32 @@ export function closeAllExcept(
     );
 }
 
-export function usePopup<T extends PopupBase>(props?: {
+export function usePopup<T extends PopupCloseExtraParams>(props?: {
     isOpened?: boolean;
     type?: PopupBase["type"];
-}): PopupBase {
-    let popupClosePromise:
-        | Promise<{ reason: ECloseReason } & Partial<PopupCloseExtraParams>>
-        | undefined;
-    let closeHandler:
-        | ((params: { reason: ECloseReason } & Partial<PopupCloseExtraParams>) => void)
-        | undefined;
-    const externalHandlers: { type: EPopupEventType; callback: ExternalHandlerCallback }[] = [];
+}): PopupBase<T> {
+    let popupClosePromise: Promise<PopupCloseParams<T>> | undefined;
+    let closeHandler: ((params: PopupCloseParams<PopupCloseExtraParams>) => void) | undefined;
+    const externalHandlers: { type: EPopupEventType; callback: (...args: any) => any }[] = [];
 
-    function addExternalHandler(type: EPopupEventType, callback: ExternalHandlerCallback) {
+    function addExternalHandler<T extends EPopupEventType>(
+        type: T,
+        callback: ExternalHandlerCallback<ExternalHandlerArgs<T>>,
+    ) {
         if (!externalHandlers.find((elem) => elem.type === type && elem.callback === callback)) {
             externalHandlers.push({ type, callback });
         }
     }
 
-    function invokeExternalHandlers(type: EPopupEventType) {
+    function invokeExternalHandlers<T extends EPopupEventType>(
+        type: T,
+        ...args: ExternalHandlerArgs<T>
+    ) {
         const handlers = externalHandlers.filter((elem) => elem.type === type);
-        handlers.forEach((elem) => elem.callback());
+        handlers.forEach((elem) => elem.callback(...args));
     }
 
-    const open: T["open"] = () => {
+    const open: PopupBase<T>["open"] = () => {
         if (popup.isOpened && popupClosePromise) {
             return popupClosePromise;
         }
@@ -98,31 +113,35 @@ export function usePopup<T extends PopupBase>(props?: {
         });
 
         invokeExternalHandlers(EPopupEventType.OPEN);
-        invokeExternalHandlers(EPopupEventType.STATE_CHANGE);
+        invokeExternalHandlers(EPopupEventType.STATE_CHANGE, true);
 
         return popupClosePromise;
     };
 
-    const close: T["close"] = (closeProps) => {
+    const close: PopupBase<T>["close"] = (closeProps) => {
         if (popup.isOpened) {
             closeHandler?.({ reason: ECloseReason.CLOSE, ...closeProps });
             popup.isOpened = false;
 
-            invokeExternalHandlers(EPopupEventType.CLOSE);
-            invokeExternalHandlers(EPopupEventType.STATE_CHANGE);
+            invokeExternalHandlers(EPopupEventType.CLOSE, closeProps?.reason ?? ECloseReason.CLOSE);
+            invokeExternalHandlers(
+                EPopupEventType.STATE_CHANGE,
+                false,
+                closeProps?.reason ?? ECloseReason.CLOSE,
+            );
         }
     };
 
     const toggle = () => {
         if (popup.isOpened) {
-            close({ reason: ECloseReason.TOGGLE });
+            close({ reason: ECloseReason.TOGGLE } as PopupCloseParams<T>);
         } else {
             open();
         }
     };
 
     const destroy = () => {
-        popup.close({ reason: ECloseReason.DESTROYED });
+        popup.close({ reason: ECloseReason.DESTROYED } as PopupCloseParams<T>);
         invokeExternalHandlers(EPopupEventType.BEFORE_DESTROY);
         externalHandlers.splice(0);
         popupClosePromise = undefined;
@@ -134,7 +153,7 @@ export function usePopup<T extends PopupBase>(props?: {
         }
     };
 
-    const popup: PopupBase = {
+    const popup: PopupBase<T> = {
         id: useId(),
         type: props?.type,
         isOpened: props?.isOpened ?? false,

@@ -1,9 +1,9 @@
-<script setup lang="ts">
-import { usePopup } from "@/api/popup";
+<script setup lang="ts" generic="T extends PopupCloseExtraParams = PopupCloseExtraParams">
+import { usePopup, type PopupCloseExtraParams } from "@/api/popup";
 import { computed, onMounted, onUnmounted, useId, useTemplateRef } from "vue";
 
 const bodyWrapperRef = useTemplateRef("bodyWrapperRef");
-const dropdown = usePopup();
+const dropdown = usePopup<T>();
 const uid = useId();
 const dropdownBodyId = `dropdown-body-${uid}`;
 const isOpened = dropdown.isOpenedRef;

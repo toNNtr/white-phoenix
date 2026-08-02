@@ -135,39 +135,47 @@ function toggleDropdown() {
 
 Не принимает никаких параметров. Возвращает промис, который разрешается при закрытии компонента. Промис разрешается с объектом параметров, которые были переданы при закрытии. Эти параметры включают в себя свойство `reason` - причину закрытия компонента.
 
-```js
+```vue
+<script setup lang="ts">
 const dropdown = useTemplateRef("dropdown");
 
 function openDropdown() {
   dropdown.value?.open().then(({ reason, extraParam }) =>
     alert(`
-        Причина закрытия: ${reason}.
-        Дополнительные параметры: "${extraParam}".
-      `),
+          Причина закрытия: ${reason}.
+          Дополнительные параметры: "${extraParam}".
+        `),
   );
 }
+</script>
+
+<template>
+  <!-- @vue-generic {{ extraParam: any }} -->
+  <DropdownBase ref="dropdown"> ... </DropdownBase>
+</template>
 ```
 
 **Результат**
 
 <div class="demo demo_darkened" style="height: 150px;">
-    <DropdownBase ref="reasonExample1">
-        <template #controls="{ isOpened }">
-        <ButtonGroup rounded style="gap: 1px;">
-            <BaseButton @click.stop="!isOpened && openDropdownReason1()" style="width: 150px;">
-                Раскрыть
-            </BaseButton>
-            <BaseButton @click.stop="closeDropdownReason1" style="width: 150px;">
-                Свернуть
-            </BaseButton>
-        </ButtonGroup>
-        </template>
-        <template #body>
-                <p style="margin: 8px;">
-                    Теперь ты меня видишь.
-                </p>
-        </template>
-    </DropdownBase>
+  <!-- @vue-generic {{ extraParam: any }} -->
+  <DropdownBase ref="reasonExample1">
+      <template #controls="{ isOpened }">
+      <ButtonGroup rounded style="gap: 1px;">
+          <BaseButton @click.stop="!isOpened && openDropdownReason1()" style="width: 150px;">
+              Раскрыть
+          </BaseButton>
+          <BaseButton @click.stop="closeDropdownReason1" style="width: 150px;">
+              Свернуть
+          </BaseButton>
+      </ButtonGroup>
+      </template>
+      <template #body>
+              <p style="margin: 8px;">
+                  Теперь ты меня видишь.
+              </p>
+      </template>
+  </DropdownBase>
 </div>
 
 ### close {#exposed-close}
@@ -180,7 +188,7 @@ function openDropdown() {
 type CloseParams = Partial<
   | Record<string, unknown>
   | {
-      reason: ECloseReason;
+      reason?: ECloseReason;
     }
 >;
 ```
