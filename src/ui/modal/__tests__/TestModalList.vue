@@ -5,6 +5,7 @@ import { useOpenedModals } from "../useModal";
 
 const { fnClick, fnMounted } = defineProps<{
     fnClick?: () => void;
+    fnInsideClick?: () => void;
     fnMounted?: () => void;
     modalProps?: Record<string, unknown>;
 }>();
@@ -22,7 +23,7 @@ onMounted(() => {
 <template>
     <ModalList data-testid="list">
         <template #default="{ modal }">
-            <component :is="modal.component" :type="modal.type" />
+            <component :is="modal.component" :type="modal.type" :fn-click="fnInsideClick" />
         </template>
     </ModalList>
     <button data-testid="button" @click.stop="buttonClick">Click</button>

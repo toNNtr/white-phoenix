@@ -9,12 +9,10 @@ afterEach(() => {
     popupList.forEach((elem) => elem.destroy());
 });
 
-test("creates empty list by default", async () => {
+test("doesn't create element when empty", async () => {
     const screen = await render(TestModalList);
 
-    await expect(screen.locator.getByTestId("list").element().innerHTML).toMatchInlineSnapshot(
-        `""`,
-    );
+    await expect(screen.locator.getByTestId("list")).not.toBeInTheDocument();
 });
 
 test("opens modal", async () => {
@@ -38,14 +36,16 @@ test("closes modal", async () => {
     modal.open();
     const screen = await render(TestModalList, {
         props: {
-            fnClick() {
+            fnInsideClick() {
                 modal.close();
             },
         },
     });
 
+    const button = await screen.locator.getByTestId("modal-button");
+
     await expect(screen.locator.getByTestId("modal")).toBeInTheDocument();
-    await screen.locator.getByTestId("button").click();
+    await button.click();
     await expect(screen.locator.getByTestId("modal")).not.toBeInTheDocument();
     await expect(screen.locator.getByTestId("opened-number")).toHaveTextContent(/^0$/);
 });
@@ -57,14 +57,16 @@ test("closes modal if another with same type opened", async () => {
 
     const screen = await render(TestModalList, {
         props: {
-            fnClick() {
+            fnInsideClick() {
                 modal2.open();
             },
         },
     });
 
+    const button = await screen.locator.getByTestId("modal-button");
+
     await expect(screen.locator.getByTestId("modal")).toBeInTheDocument();
-    await screen.locator.getByTestId("button").click();
+    await button.click();
     await expect(screen.locator.getByTestId("modal")).toBeInTheDocument();
     await expect(screen.locator.getByTestId("opened-number")).toHaveTextContent(/^1$/);
     expect(modal1.isOpenedRef.value).toBe(false);

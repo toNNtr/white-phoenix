@@ -6,7 +6,7 @@ defineEmits<{ close: [] }>();
 
 <template>
     <div @click.stop class="modal-example">
-        <span style="text-align: center">Клик по кнопке или&nbsp;снаружи закроет окно.</span>
+        <span style="text-align: center">Клик по кнопке или снаружи закроет окно.</span>
         <BaseButton @click="$emit('close')">Закрыть</BaseButton>
     </div>
 </template>
@@ -21,10 +21,5 @@ defineEmits<{ close: [] }>();
 
     width: 300px;
     height: 150px;
-    padding: 12px;
-
-    background-color: #fff;
-    border-radius: 16px;
-    box-shadow: 4px 4px 10px #0000006a;
 }
 </style>

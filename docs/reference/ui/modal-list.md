@@ -5,12 +5,14 @@ description: Компонент, который отображает откры�
 <script setup lang="ts">
 import { ECloseReason } from "@/api/popup";
 import { BaseButton } from "@/ui/button";
-import { ModalList, useModal, useHasOpenedModals, closeTopModal } from "@/ui/modal";
+import { ModalList, ModalWidget, useModal } from "@/ui/modal";
 import { modalExample } from "@docs/components";
+import { ref } from "vue";
 
 const announcementModal = useModal(modalExample.ModalExample);
 const announcementWithCloseModal = useModal(modalExample.ModalWithCloseExample);
-const hasOpenedModals = useHasOpenedModals();
+let exampleOneCloseReason = ref<ECloseReason | null>(null);
+let exampleTwoCloseReason = ref<ECloseReason | null>(null);
 
 function showAnnouncement() {
     announcementModal.open();
@@ -19,6 +21,14 @@ function showAnnouncement() {
 function showAnnouncementWithClose() {
     announcementWithCloseModal.open();
 }
+
+announcementModal.onClosed((reason) => {
+    exampleOneCloseReason.value = reason ?? null;
+});
+
+announcementWithCloseModal.onClosed((reason) => {
+    exampleTwoCloseReason.value = reason ?? null;
+});
 </script>
 
 # ModalList {#modal-list}
@@ -35,14 +45,12 @@ import { ModalList } from "@tonntr/ui/modal";
 
 ```vue
 <script setup>
-import { ModalList, useModal, useHasOpenedModals, closeTopModal } from "@tonntr/ui/modal";
-import { ECloseReason } from "@tonntr/api/popup";
+import { ModalList, ModalWidget, useModal } from "@tonntr/ui/modal";
 
 // Компонент, который будет отображаться в качестве модального окна
 import { ModalExample } from "...";
 
 const announcementModal = useModal(ModalExample);
-const hasOpenedModals = useHasOpenedModals();
 
 function showAnnouncement() {
   announcementModal.open();
@@ -50,84 +58,48 @@ function showAnnouncement() {
 </script>
 
 <template>
-  <div class="backdrop" v-if="hasOpenedModals" @click="closeTopModal(ECloseReason.BACKDROP_CLICK)">
-    <ModalList>
-      <template #default="{ modal }">
-        <component :is="modal.component" />
-      </template>
-    </ModalList>
-  </div>
+  <ModalList>
+    <template #default="{ modal }">
+      <ModalWidget :id="modal.id" @close="modal.close" :modal="modal" />
+    </template>
+  </ModalList>
   <BaseButton @click.stop="showAnnouncement">Показать окно</BaseButton>
 </template>
-
-<style>
-.backdrop {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgb(0 0 0 / 50%);
-  z-index: 100;
-}
-</style>
 ```
 
 **Результат**
 
 <div class="demo demo_darkened">
-    <div v-if="hasOpenedModals"
-        @click="closeTopModal(ECloseReason.BACKDROP_CLICK)" style="
-        position: fixed;
-        display: flex;
-        justify-content: center; align-items: center;
-        top: 0; left: 0;
-        width: 100vw; height: 100vh;
-        background-color: rgb(0 0 0 / 50%);
-        z-index: 100;
-    ">
-        <ModalList>
-            <template #default="{ modal }">
-                <component :is="modal.component" />
-            </template>
-        </ModalList>
-    </div>
+    <ModalList>
+        <template #default="{ modal }">
+            <ModalWidget :id="modal.id" @close="modal.close" :modal="modal" />
+        </template>
+    </ModalList>
     <BaseButton @click.stop="showAnnouncement">Показать окно</BaseButton>
+    <span v-if="exampleOneCloseReason">Причина закрытия: <mark>{{ exampleOneCloseReason }}</mark></span>
 </div>
 
 Модальное окно может закрыть само себя при помощи события `close`.
 
 ```vue-html
-<ModalList>
-    <template #default="{ modal }">
-        <component :is="modal.component" @close="modal.close"/>
-    </template>
-</ModalList>
+    <ModalList>
+        <template #default="{ modal }">
+            <ModalWidget :id="modal.id" @close="modal.close" :modal="modal" />
+        </template>
+    </ModalList>
+    <BaseButton @click.stop="showAnnouncement">Показать окно</BaseButton>
 ```
 
 **Результат**
 
 <div class="demo demo_darkened">
-    <div v-if="hasOpenedModals"
-        @click="closeTopModal(ECloseReason.BACKDROP_CLICK)" style="
-        position: fixed;
-        display: flex;
-        justify-content: center; align-items: center;
-        top: 0; left: 0;
-        width: 100vw; height: 100vh;
-        background-color: rgb(0 0 0 / 50%);
-        z-index: 100;
-    ">
-        <ModalList>
-            <template #default="{ modal }">
-                <component :is="modal.component" @close="modal.close" />
-            </template>
-        </ModalList>
-    </div>
+    <ModalList>
+        <template #default="{ modal }">
+            <ModalWidget :id="modal.id" @close="modal.close" :modal="modal" />
+        </template>
+    </ModalList>
     <BaseButton @click.stop="showAnnouncementWithClose">Показать окно</BaseButton>
+    <span v-if="exampleTwoCloseReason">Причина закрытия: <mark>{{ exampleTwoCloseReason }}</mark></span>
 </div>
 
 ## Слоты {#slots}
