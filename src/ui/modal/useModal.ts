@@ -1,4 +1,4 @@
-import { ECloseReason, usePopup, type Popup, type PopupCloseExtraParams } from "@/api/popup";
+import { ECloseReason, usePopup, type PopupCloseExtraParams } from "@/api/popup";
 import { computed } from "vue";
 import { type Modal } from "./types";
 
