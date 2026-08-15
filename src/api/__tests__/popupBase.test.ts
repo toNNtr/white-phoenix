@@ -289,7 +289,7 @@ describe("Popup core", () => {
             new Promise((resolve) => {
                 if (popup) {
                     popup.open().then((value) => resolve(value));
-                    let anotherPopup: PopupBase | null = usePopup({ isOpened: true });
+                    usePopup({ isOpened: true });
                 }
             }),
         ).resolves.toMatchInlineSnapshot(`
