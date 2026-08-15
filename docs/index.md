@@ -13,6 +13,9 @@ hero:
     - theme: brand
       text: Документация API
       link: reference/api
+    - theme: brand
+      text: Документация Plugins
+      link: reference/plugins/http
     - theme: alt
       text: Проект на GitHub
       link: https://github.com/toNNtr/white-phoenix

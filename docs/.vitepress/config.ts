@@ -15,6 +15,7 @@ export default defineConfig({
                 items: [
                     { text: "UI", link: "reference/ui/base-button" },
                     { text: "API", link: "reference/api" },
+                    { text: "Plugins", link: "reference/plugins/http" },
                 ],
             },
         ],
@@ -44,6 +45,10 @@ export default defineConfig({
                 ],
             },
             "reference/api/": [],
+            "reference/plugins/": {
+                base: "reference/plugins/",
+                items: [{ text: "HTTP", link: "http" }],
+            },
         },
 
         socialLinks: [{ icon: "github", link: "https://github.com/toNNtr/white-phoenix" }],
