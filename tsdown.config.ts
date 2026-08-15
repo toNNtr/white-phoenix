@@ -11,6 +11,7 @@ export default defineConfig({
         "api/*": "src/api/*/index.ts",
         "types/*": "src/types/*/index.ts",
         theme: "src/theme/index.ts",
+        "plugins/*": "src/plugins/*/index.ts",
     },
     platform: "neutral",
     exports: false,
