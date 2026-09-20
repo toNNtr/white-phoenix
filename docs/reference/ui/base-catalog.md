@@ -8,41 +8,48 @@ description: Компонент для отрисовки каталогов
     import { CardSmall, CardMedium } from "@/ui/card";
     import { BaseButton } from "@/ui/button";
     import { ButtonGroup } from "@/ui/button-group";
+    import { CardMediumLoader } from "@docs/components/laoder";
 
-    const usageItems = [
-        { id: 0, title: "Страница 1", description: "Очень короткое описание" },
-        { id: 1, title: "Страница 2", description: "Очень короткое описание" },
-        { id: 2, title: "Страница 3", description: "Очень короткое описание" },
-        { id: 3, title: "Страница 4", description: "Очень короткое описание" },
-        { id: 4, title: "Страница 5", description: "Очень короткое описание" },
-    ];
-
-    function usageWithDelegationItems() {
-        return new Promise(resolve => setTimeout(() => resolve([
-            { id: 0, title: "Страницы", description: "Асинхронная загрузка" },
-            { id: 1, title: "Загруженные", description: "начинается в момент" },
-            { id: 2, title: "С сервера", description: "монтирования каталога" },
-        ]), 3000));
+    function fetchItems() {
+        return new Promise(resolve => setTimeout(() => resolve({
+            items: [
+                { id: 0, title: "Страница 1", description: "Очень короткое описание" },
+                { id: 1, title: "Страница 2", description: "Очень короткое описание" },
+                { id: 2, title: "Страница 3", description: "Очень короткое описание" },
+                { id: 3, title: "Страница 4", description: "Очень короткое описание" },
+                { id: 4, title: "Страница 5", description: "Очень короткое описание" },
+            ],
+        }), 1500));
     }
 
-    const showUsageWithDelegation = ref(false);
-    const observerTargetDelegation = useTemplateRef("observerTargetDelegation");
-    const observerCallbackDelegation = (entries, observer) => {
+    function endlessFetchItems() {
+        return new Promise(resolve => {
+            // Never resolve
+        })
+    }
+    
+    function fetchWithError() {
+        return Promise.reject(new Error("Текст ошибки при неудачной загрузке данных."));
+    }
+
+    const showUsage = ref(false);
+    const observerTargetUsage = useTemplateRef("observerTargetUsage");
+    const observerCallbackUsage = (entries, observer) => {
         entries.forEach(entry => {
             if(entry.isIntersecting) {
-                showUsageWithDelegation.value = true;
-                observerDelegation.unobserve(observerTargetDelegation.value);
+                showUsage.value = true;
+                observerUsage.unobserve(observerTargetUsage.value);
             }
         });
     };
 
-    const observerDelegation = new IntersectionObserver(observerCallbackDelegation, {
+    const observerUsage = new IntersectionObserver(observerCallbackUsage, {
         root: null,
-        threshold: .1,
+        threshold: 0.1,
     });
 
     onMounted(() => {
-        observerDelegation.observe(observerTargetDelegation.value);
+        observerUsage.observe(observerTargetUsage.value);
     });
 </script>
 
@@ -61,58 +68,29 @@ import { BaseCatalog } from "@tonntr/white-phoenix/ui/catalog";
 import { BaseCatalog } from "@tonntr/white-phoenix/ui/catalog";
 import { CardSmall } from "@tonntr/white-phoenix/ui/card";
 
-const items = [
-  { id: 0, title: "Страница 1", description: "Очень короткое описание" },
-  { id: 1, title: "Страница 2", description: "Очень короткое описание" },
-  { id: 2, title: "Страница 3", description: "Очень короткое описание" },
-  { id: 3, title: "Страница 4", description: "Очень короткое описание" },
-  { id: 4, title: "Страница 5", description: "Очень короткое описание" },
-];
-</script>
-
-<template>
-  <BaseCatalog title="Страницы" :items="items" layout="horizontal">
-    <template #card="{ item }">
-      <CardSmall :title="item.title" :description="item.description" />
-    </template>
-  </BaseCatalog>
-</template>
-```
-
-**Результат**
-
-<div class="demo demo_darkened">
-    <BaseCatalog title="Страницы" :items="usageItems" layout="horizontal">
-        <template #card="{ item }">
-            <CardSmall :title="item.title" :description="item.description"/>
-        </template>
-    </BaseCatalog>
-</div>
-
-## Делегирование загрузки списка {#usage-with-delegation}
-
-Можно делегировать компоненту загрузку списка передав в параметрах асинхронную функцию, которая будет возвращать загруженные данные. Компонент вызовет эту функцию как только будет смонтирован.
-
-```vue
-<script setup>
-import { BaseCatalog } from "@tonntr/white-phoenix/ui/catalog";
-import { CardSmall } from "@tonntr/white-phoenix/ui/card";
-
-async function loadData() {
-  const response = await fetch("...");
-  if (!response.ok) {
-    throw "Не удалось загрузить данные";
-  }
-
-  return await response.json();
+async function fetchItems() {
+  return {
+    items: [
+      { id: 0, title: "Страница 1", description: "Очень короткое описание" },
+      { id: 1, title: "Страница 2", description: "Очень короткое описание" },
+      { id: 2, title: "Страница 3", description: "Очень короткое описание" },
+      { id: 3, title: "Страница 4", description: "Очень короткое описание" },
+      { id: 4, title: "Страница 5", description: "Очень короткое описание" },
+    ],
+  };
 }
 </script>
 
 <template>
-  <BaseCatalog title="Страницы" :get-items="loadData" layout="horizontal">
-    <template #card="{ item }">
-      <CardSmall :title="item.title" :description="item.description" />
-    </template>
+  <BaseCatalog
+    layout="vertical"
+    :get-items="fetchItems"
+    #="{ item }"
+  >
+    <CardSmall
+      :title="item.title"
+      :description="item.description"
+    />
   </BaseCatalog>
 </template>
 ```
@@ -120,38 +98,24 @@ async function loadData() {
 **Результат**
 
 <div
-    v-if="showUsageWithDelegation"
+    v-if="showUsage"
     class="demo demo_darkened"
     style="
         height: 280px;
         overflow-y: auto;
     "
 >
-    <BaseCatalog title="Страницы" :get-items="usageWithDelegationItems" layout="horizontal">
-        <template #card="{ item }">
-            <CardSmall :title="item.title" :description="item.description"/>
-        </template>
+    <BaseCatalog
+        layout="vertical"
+        :get-items="fetchItems"
+        #="{ item }"
+    >
+        <CardSmall :title="item.title" :description="item.description"/>
     </BaseCatalog>
 </div>
-<div ref="observerTargetDelegation"></div>
-
-::: tip
-
-Подробнее про использование параметра getItems и требованиям к функции, возвращающей данные смотрите в разделе [getItems](#props-get-items).
-
-:::
+<div ref="observerTargetUsage"></div>
 
 ## Параметры {#props}
-
-### title {#props-title}
-
-Заголовок каталога.
-
-::: tip
-
-Игнорируется как заголовок, если задано содержимое [слота header](#slots-header), но всё равно учитывается как `aria-label`.
-
-:::
 
 ### layout {#props-layout}
 
@@ -160,98 +124,132 @@ async function loadData() {
 Возможные значения:
 
 - grid
-- horizontal
-
-### items {#props-items}
-
-Массив элементов для отображения в каталоге.
-
-Каждый элемент должен обязательно содержать поле "id", которое должно быть уникальным.
-
-```vue-html
-const items: { id: symbol | string | number }[] = [...];
-```
-
-::: tip
-
-Игнорируется, если передан [параметр get-items](#props-get-items).
-
-:::
+- vertical
 
 ### get-items {#props-get-items}
 
-Принимает асинхронную функцию, которая должна вернуть массив элементов для отображения каталога.
+Принимает асинхронную функцию, которая должна вернуть определение каталога. В определении каталога должен содержаться список элементов для отображения, также могут быть добавлены другие параметры, необходимые для пагинации.
 
 ```ts
-function getItems(params: {
-    filter?: {
+type GetCatalogItemsMethod<T> = (params: {
+  filter?:
+    | {
         searchWord?: string | undefined;
-    } | undefined;
-    paging?: {
+      }
+    | undefined;
+  sorting?:
+    | {
+        [x: string]: "asc" | "desc";
+      }
+    | undefined;
+  paging?:
+    | {
         page?: number | undefined;
         maxItems?: number | undefined;
-    } | undefined;
-}): Promise<{ id: string | number | symbol }[]>{
-    ...
-}
+      }
+    | undefined;
+}) => Promise<{
+  items: T[];
+  totalItems?: number | undefined;
+  page?: number | undefined;
+}>;
 ```
 
-Таким образом можно [делегировать](#usage-with-delegation) получение данных компоненту каталога.
+**Параметры метода:**
+
+- filter - используется для передачи в метод поискового запроса и фильтров;
+- sorting - сиписок полей по которым осуществляется сортировка и направление сортировки;
+- paging - параметры пагинации (текущая страница и максималькое количество элементов на странице).
+
+**Возвращаемое значение:**
+
+- items - список элементов каталога для отрисовки;
+- totalItems - общее количество элементов каталога с учетом тех, которые не были возвращены с сервера и с учетом фильтрации;
+- page - возвращенная сервером страница (может быть полезно, если в момент пагинации на сервере изменились данные из-за чего страниц стало меньше).
 
 ## Слоты {#slots}
 
-### header {#slots-header}
-
-Позволяет добавлять не текстовое содержимое в заголовок каталога.
-
-```vue-html
-<BaseCatalog>
-    <template #header>
-        <div style="
-            display: flex;
-            justify-content: space-between;
-            gap: 8px;
-        ">
-            <h2>Шаблоны страниц</h2>
-            <BaseButton>Создать</BaseButton>
-        </div>
-    </template>
-</BaseCatalog>
-```
-
-**Результат**
-
-<div class="demo demo_darkened">
-    <BaseCatalog>
-        <template #header>
-            <h2>Шаблоны страниц</h2>
-            <BaseButton>Создать</BaseButton>
-        </template>
-    </BaseCatalog>
-</div>
-
-### card {#slots-card}
+### default {#slots-default}
 
 Принимает шаблон для отображения в качестве элемента каталога.
 
 Параметры:
 
-- item - элемент каталога
+- item - элемент каталога;
+- catalogItems - все элементы каталога на странице;
+- totalItems - общее количество элементов каталога с учетом тех, которые не были возвращены с сервера и с учетом фильтрации;
+- page - возвращенная сервером страница (может быть полезно, если в момент пагинации на сервере изменились данные из-за чего страниц стало меньше).
 
 ```vue-html
-<BaseCatalog :items="usageItems">
-    <template #card="{ item }">
+<BaseCatalog :get-items="fetchItems">
+    <template #default="{ item, catalogItems, totalItems, page }">
         <CardMedium :title="item.title" :description="item.description" />
     </template>
 </BaseCatalog>
 ```
 
-**Результат**
+### loader {#slots-loader}
+
+Принимает лоадер для отрисовки во время загрузки данных.
+
+Для наглядности, в следующем примере функция fetchItems никогда не возвращает данные, что позволяет вечно наблюдать за загрузкой:
+
+```vue-html
+<BaseCatalog :get-items="fetchItems">
+    <template #default="{ item }">
+        <CardMedium :title="item.title" :description="item.description" />
+    </template>
+    <template #loader>
+        <CardMediumLoader />
+        <CardMediumLoader />
+        <CardMediumLoader />
+    </template>
+</BaseCatalog>
+```
 
 <div class="demo demo_darkened">
-    <BaseCatalog :items="usageItems">
-        <template #card="{ item }">
+    <BaseCatalog :get-items="endlessFetchItems">
+        <template #default="{ item }">
             <CardMedium :title="item.title" :description="item.description" />
+        </template>
+        <template #loader>
+            <CardMediumLoader />
+            <CardMediumLoader />
+            <CardMediumLoader />
+        </template>
+    </BaseCatalog>
+</div>
+
+### error {#slots-error}
+
+Принимает содержимое, которое должно отобразиться в случае, если при загрузке данных произошла ошибка.
+
+Параметры:
+
+- error - текст ошибки.
+
+```vue-html
+<BaseCatalog :get-items="fetchItems">
+    <template #default="{ item }">
+        <CardMedium :title="item.title" :description="item.description" />
+    </template>
+    <template #error="{ error }">
+        <CardMedium
+            title="Произошла ошибка"
+            :description="error"
+            style="background-color: #ff000063;"
+        />
+    </template>
+</BaseCatalog>
+```
+
+<div class="demo demo_darkened">
+    <BaseCatalog :get-items="fetchWithError">
+        <template #default="{ item }">
+            <CardMedium :title="item.title" :description="item.description" />
+        </template>
+        <template #error="{ error }">
+            <CardMedium title="Произошла ошибка" :description="error" style="background-color: #ff000063;" />
         </template>
     </BaseCatalog>
 </div>
