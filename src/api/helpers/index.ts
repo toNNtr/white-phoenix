@@ -91,3 +91,7 @@ export function mergeObjects<T extends Record<string, any>>(
 
     return innerMergeObjects(previousLinks, target, ...objects);
 }
+
+export function objectKeys<T extends object>(obj: T) {
+    return Object.keys(obj) as Array<keyof T>;
+}
