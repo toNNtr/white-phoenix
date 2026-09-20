@@ -1,49 +1,85 @@
 <script setup lang="ts" generic="T extends { id: symbol | string | number }">
-import { onMounted, ref, type Ref } from "vue";
-import { type CatalogProps } from "./types";
-import type { FilterOptions, PagingOptions } from "@/types/common";
+import { ref, watch, type Ref } from "vue";
+import type { CatalogProps } from "./types";
 
-const { layout = "grid", title = "", items = [], getItems } = defineProps<CatalogProps<T>>();
+const { layout = "grid", filter, paging, sorting, getItems } = defineProps<CatalogProps<T>>();
 const catalogClass = `catalog_${layout}`;
-const catalogItems = ref([...items]) as Ref<T[]>;
+const catalogItems = ref([]) as Ref<T[]>;
+const totalItems = ref<number | null>(null);
+const page = ref<number | null>(null);
 const isLoading = ref(true);
-const filter = ref<FilterOptions>({});
-const paging = ref<PagingOptions>({});
+const error = ref("");
 
 defineSlots<{
-    header(): unknown;
-    card(props: { item: T }): unknown;
+    default(props: {
+        item: T;
+        catalogItems: T[];
+        totalItems?: number | null;
+        page?: number | null;
+    }): unknown;
+    loader(): unknown;
+    error(props: { error: string }): unknown;
 }>();
 
-onMounted(() => {
-    if (getItems) {
-        getItems({ filter: filter.value, paging: paging.value })
-            .then((result) => {
-                catalogItems.value = [...result];
+async function loadData() {
+    const result = await getItems({ filter, sorting, paging });
+    catalogItems.value = [...result.items];
+    totalItems.value = result.totalItems ?? null;
+    page.value = result.page ?? null;
+}
+
+watch(
+    [() => filter, () => sorting, () => paging],
+    () => {
+        error.value = "";
+        isLoading.value = true;
+        loadData()
+            .catch((loadError) => {
+                if (loadError instanceof Error && loadError.message) {
+                    error.value = loadError.message;
+                } else {
+                    error.value = "Произошла ошибка при получении данных.";
+                    console.error(loadError);
+                }
             })
-            .catch((error) => console.error(error))
-            .finally(() => {
-                isLoading.value = false;
-            });
-    } else {
-        isLoading.value = false;
-    }
-});
+            .finally(() => (isLoading.value = false));
+    },
+    {
+        immediate: true,
+        deep: true,
+    },
+);
 </script>
 
 <template>
-    <div class="catalog" :class="catalogClass" :aria-label="title">
-        <header class="catalog__header">
-            <slot name="header">
-                <h2>{{ title }}</h2>
-            </slot>
-        </header>
-        <div v-if="!isLoading" class="catalog__body">
-            <div v-for="item in catalogItems" :key="item.id" class="catalog__card">
-                <slot name="card" :item="item"></slot>
+    <div
+        class="catalog"
+        :class="catalogClass"
+    >
+        <div
+            v-if="!isLoading && !error"
+            class="catalog__body"
+        >
+            <div
+                v-for="item in catalogItems"
+                :key="item.id"
+                class="catalog__item"
+            >
+                <slot v-bind="{ item, catalogItems, totalItems, page }"></slot>
             </div>
         </div>
-        <span v-else>Загрузка</span>
+        <slot
+            v-else-if="!isLoading && error"
+            name="error"
+            :error="error"
+            >{{ error }}</slot
+        >
+        <slot
+            v-else
+            name="loader"
+        >
+            Загрузка...
+        </slot>
     </div>
 </template>
 
@@ -72,7 +108,7 @@ onMounted(() => {
     grid-auto-rows: 200px;
 }
 
-.catalog.catalog_horizontal > .catalog__body {
+.catalog.catalog_vertical > .catalog__body {
     display: flex;
     flex-direction: column;
     gap: 10px;
