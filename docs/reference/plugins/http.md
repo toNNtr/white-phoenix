@@ -11,10 +11,23 @@ description: Плагин для работы с HTTP-запросами
 ## Установка {#install}
 
 ```js
-import http from "@tonntr/white-phoenix/plugins/http";
+import { createHttp } from "@tonntr/white-phoenix/plugins/http";
 
-createApp(App).use(http, pluginOptions);
+const http = createHttp(pluginOptions); // Опции плагина можно передавать при инициализации
+createApp(App).use(http, pluginOptions); // или при применении плагина.
 ```
+
+Опции плагина можно передавать в функцию createHttp, в функцию use, при подключении плагина или в обе.
+
+::: warning
+
+При передаче опций в обе функции, опции будут объединены по следующему правилу:
+
+- скалярные значения, переданные в use будут иметь приоритет;
+- свойства объектов и элементы и массивов будут объединяться;
+- если одинаковые объекты имеют скалярные свойства с одними и теми же именами, приоритет будет у свойств, переданных в use.
+
+:::
 
 ### Опции плагина {#install-options}
 
