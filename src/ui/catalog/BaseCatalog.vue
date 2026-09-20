@@ -21,11 +21,27 @@ defineSlots<{
     error(props: { error: string }): unknown;
 }>();
 
+const emit = defineEmits<{
+    loaded: [
+        params: {
+            items: T[];
+            totalItems?: number | null;
+            page?: number | null;
+        },
+    ];
+}>();
+
 async function loadData() {
     const result = await getItems({ filter, sorting, paging });
     catalogItems.value = [...result.items];
     totalItems.value = result.totalItems ?? null;
     page.value = result.page ?? null;
+
+    emit("loaded", {
+        items: catalogItems.value,
+        totalItems: totalItems.value,
+        page: page.value,
+    });
 }
 
 watch(
