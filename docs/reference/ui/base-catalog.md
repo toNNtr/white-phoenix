@@ -253,3 +253,24 @@ type GetCatalogItemsMethod<T> = (params: {
         </template>
     </BaseCatalog>
 </div>
+
+## События {#events}
+
+### loaded {#events-loaded}
+
+Событие `loaded` вызывается когда загрузка каталога успешно завершена.
+
+Параметры:
+
+- items - загруженная страница элементов каталога;
+- totalItems - общее количество элементов каталога с учетом тех, которые не были возвращены с сервера и с учетом фильтрации;
+- page - возвращенная сервером страница;
+
+```vue-html
+<BaseCatalog
+    :get-items="fetchItems"
+    @loaded="({ items, totalItems, page }) => { ... }"
+>
+    ...
+</BaseCatalog>
+```
