@@ -1,24 +1,131 @@
-import http, { httpKey } from "..";
+import { createHttp, httpKey } from "..";
 import { test, expect, vi } from "vitest";
 import { defineComponent, inject, onMounted, ref } from "vue";
 import { render } from "vitest-browser-vue";
 
-test("provides app level inject", async () => {
+const http = createHttp();
+
+test("can accept options through plugin options", async () => {
     const screen = await render(
         defineComponent({
-            template: '<div data-testid="inject">{{ httpInstance.base }}</div>',
+            template: `
+                <div data-testid="base">{{ httpInstance.options.base }}</div>
+                <div data-testid="headers">{{ JSON.stringify(httpInstance.options.headers) }}</div>
+                <div data-testid="mockRequests">{{ httpInstance.options.mockRequests }}</div>
+            `,
             setup() {
                 // @ts-expect-error
-                const httpInstance = inject(httpKey, { base: "Nope" });
+                const httpInstance = inject(httpKey, {
+                    options: {
+                        base: "Nope",
+                        headers: {},
+                        mockRequests: false,
+                    },
+                });
                 return { httpInstance };
             },
         }),
         {
-            global: { plugins: [[http, { base: "I'm here" }]] },
+            global: {
+                plugins: [
+                    [http, { base: "I'm here", headers: { one: "two" }, mockRequests: true }],
+                ],
+            },
         },
     );
 
-    await expect(screen.getByTestId("inject")).toHaveTextContent("I'm here");
+    await expect(screen.getByTestId("base")).toHaveTextContent("I'm here");
+    await expect(screen.getByTestId("headers").element().textContent).toMatchInlineSnapshot(
+        `"{"one":"two"}"`,
+    );
+    await expect(screen.getByTestId("mockRequests")).toHaveTextContent("true");
+});
+
+test("can accept options through create function", async () => {
+    const pluginInstance = createHttp({
+        base: "I'm here",
+        headers: { one: "two" },
+        mockRequests: true,
+    });
+    const screen = await render(
+        defineComponent({
+            template: `
+                <div data-testid="base">{{ httpInstance.options.base }}</div>
+                <div data-testid="headers">{{ JSON.stringify(httpInstance.options.headers) }}</div>
+                <div data-testid="mockRequests">{{ httpInstance.options.mockRequests }}</div>
+            `,
+            setup() {
+                // @ts-expect-error
+                const httpInstance = inject(httpKey, {
+                    options: {
+                        base: "Nope",
+                        headers: {},
+                        mockRequests: false,
+                    },
+                });
+                return { httpInstance };
+            },
+        }),
+        {
+            global: {
+                plugins: [[pluginInstance]],
+            },
+        },
+    );
+
+    await expect(screen.getByTestId("base")).toHaveTextContent("I'm here");
+    await expect(screen.getByTestId("headers").element().textContent).toMatchInlineSnapshot(
+        `"{"one":"two"}"`,
+    );
+    await expect(screen.getByTestId("mockRequests")).toHaveTextContent("true");
+});
+
+test("merges options from all sources", async () => {
+    const pluginInstance = createHttp({
+        base: "I'm here",
+        headers: { one: "two", three: "four" },
+        mockRequests: false,
+    });
+    const screen = await render(
+        defineComponent({
+            template: `
+                <div data-testid="base">{{ httpInstance.options.base }}</div>
+                <div data-testid="headers">{{ JSON.stringify(httpInstance.options.headers) }}</div>
+                <div data-testid="mockRequests">{{ httpInstance.options.mockRequests }}</div>
+            `,
+            setup() {
+                // @ts-expect-error
+                const httpInstance = inject(httpKey, {
+                    options: {
+                        base: "Nope",
+                        headers: {},
+                        mockRequests: false,
+                    },
+                });
+                return { httpInstance };
+            },
+        }),
+        {
+            global: {
+                plugins: [
+                    [
+                        pluginInstance,
+                        {
+                            base: "I'm here now",
+                            headers: { three: "five", six: "seven" },
+                            mockRequests: true,
+                        },
+                    ],
+                ],
+            },
+        },
+    );
+
+    await expect(screen.getByTestId("base")).toHaveTextContent("I'm here");
+    await expect(screen.getByTestId("headers").element().textContent).toMatchInlineSnapshot(
+        `"{"one":"two","three":"five","six":"seven"}"`,
+    );
+    await expect(screen.getByTestId("mockRequests")).toHaveTextContent("true");
 });
 
 test("mocks requests with raw data", async () => {
