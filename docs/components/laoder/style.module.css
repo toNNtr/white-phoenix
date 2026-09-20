@@ -1,0 +1,44 @@
+.loader {
+    --bg-color: var(--wp-color-gray-60);
+    --loader-color-1: color-mix(in oklab, var(--wp-color-brand-2) 80%, transparent 20%);
+    --loader-color-2: color-mix(in oklab, var(--wp-color-gray-80) 70%, transparent 30%);
+    --blur-width: 600%;
+    --blur-height: 200%;
+    --blur-start-position: 130%;
+    --blur-end-position: 0%;
+    --blur-background: linear-gradient(
+        130deg,
+        transparent 0,
+        transparent 35%,
+        var(--loader-color-1) 40%,
+        var(--loader-color-2) 50%,
+        var(--loader-color-1) 60%,
+        transparent 70%,
+        transparent 100%
+    );
+
+    --text-gap: 18px;
+    --text-line-height: 16px;
+
+    background-color: var(--wp-color-gray-80) !important;
+    background-repeat: no-repeat;
+
+    background-image:
+        var(--blur-background), var(--title-skeleton), var(--text-line-first-skeleton);
+
+    background-size:
+        var(--blur-width) var(--blur-height),
+        var(--title-width) var(--title-height),
+        var(--text-line-first-width) var(--text-line-first-height);
+
+    background-position:
+        var(--blur-start-position), var(--title-position), var(--text-line-first-position);
+
+    animation: loading 1.8s ease-in infinite;
+}
+@keyframes loading {
+    to {
+        background-position:
+            var(--blur-end-position), var(--title-position), var(--text-line-first-position);
+    }
+}
