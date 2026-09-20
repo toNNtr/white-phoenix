@@ -40,7 +40,7 @@
     "docs:preview": "vitepress preview docs"
   },
   "peerDependencies": {
-    "vue": "^3.0.0"
+    "vue": "^3.5.22"
   },
   "devDependencies": {
     "@tonntr/rolldown-plugin-svg-loader": "^0.0.1",
