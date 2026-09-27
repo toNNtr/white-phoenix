@@ -1,14 +1,30 @@
-<script setup lang="ts" generic="T extends { id: symbol | string | number }">
-import { ref, watch, type Ref } from "vue";
-import type { CatalogProps } from "./types";
+<script setup lang="ts" generic="T extends CatalogItemBase">
+import { onMounted, ref, useTemplateRef, watch, type Ref } from "vue";
+import type { CatalogItemBase, CatalogLoadedCallback, CatalogProps } from "./types";
+import type { GetParameters } from "@/types/utility";
+import { useObserver } from "@/api/containerObserver";
+import type { ObserverProxyBase, ObserverTargetCallback } from "@/api/containerObserver/types";
 
-const { layout = "grid", filter, paging, sorting, getItems } = defineProps<CatalogProps<T>>();
+const {
+    layout = "grid",
+    filter,
+    paging,
+    sorting,
+    infinite = false,
+    getItems,
+} = defineProps<CatalogProps<T>>();
+
 const catalogClass = `catalog_${layout}`;
 const catalogItems = ref([]) as Ref<T[]>;
 const totalItems = ref<number | null>(null);
-const page = ref<number | null>(null);
-const isLoading = ref(true);
+const loadedPage = ref<number | null>(null);
+const isLoading = ref(false);
 const error = ref("");
+const loadTrigger = useTemplateRef("loadTrigger");
+const observer = useObserver();
+let page = 0;
+let pageSize = 0;
+let maxPage: number | null = null;
 
 defineSlots<{
     default(props: {
@@ -22,34 +38,70 @@ defineSlots<{
 }>();
 
 const emit = defineEmits<{
-    loaded: [
-        params: {
-            items: T[];
-            totalItems?: number | null;
-            page?: number | null;
-        },
-    ];
+    loaded: GetParameters<CatalogLoadedCallback<T>>;
 }>();
 
-async function loadData() {
-    const result = await getItems({ filter, sorting, paging });
-    catalogItems.value = [...result.items];
-    totalItems.value = result.totalItems ?? null;
-    page.value = result.page ?? null;
-
-    emit("loaded", {
-        items: catalogItems.value,
-        totalItems: totalItems.value,
-        page: page.value,
-    });
+function initTrigger() {
+    if (loadTrigger.value) {
+        observer.observe({ target: loadTrigger.value }, infiniteLoaderCallback);
+    }
 }
 
-watch(
-    [() => filter, () => sorting, () => paging],
-    () => {
+function clearTrigger(observerProxy: ObserverProxyBase) {
+    if (loadTrigger.value) {
+        observerProxy.unobserve({ target: loadTrigger.value }, infiniteLoaderCallback);
+    }
+}
+
+const infiniteLoaderCallback: ObserverTargetCallback = (entry, observerProxy) => {
+    if (entry.isIntersecting) {
+        clearTrigger(observerProxy);
+
+        if (maxPage === null || page < maxPage) {
+            page += 1;
+            load();
+        }
+    }
+};
+
+function load() {
+    if (!isLoading.value) {
         error.value = "";
         isLoading.value = true;
-        loadData()
+
+        getItems({ filter, sorting, paging: { page: page, maxItems: pageSize } })
+            .then((result) => {
+                if (!infinite) {
+                    catalogItems.value = [...result.items];
+                } else {
+                    result.items.forEach((item) => {
+                        if (!catalogItems.value.find((elem) => elem.id === item.id)) {
+                            catalogItems.value.push(item);
+                        }
+                    });
+                }
+
+                totalItems.value = result.totalItems ?? null;
+                loadedPage.value = result.page ?? null;
+
+                if (loadedPage.value && loadedPage.value !== page) {
+                    page = loadedPage.value;
+                }
+
+                if (result.totalItems) {
+                    maxPage = Math.floor(result.totalItems / pageSize);
+                }
+
+                isLoading.value = false;
+
+                emit("loaded", {
+                    items: catalogItems.value,
+                    totalItems: totalItems.value,
+                    page: loadedPage.value,
+                });
+
+                initTrigger();
+            })
             .catch((loadError) => {
                 if (loadError instanceof Error && loadError.message) {
                     error.value = loadError.message;
@@ -59,12 +111,24 @@ watch(
                 }
             })
             .finally(() => (isLoading.value = false));
+    }
+}
+
+watch(
+    () => paging,
+    (newPaging) => {
+        page = newPaging?.page ?? 0;
+        pageSize = newPaging?.maxItems ?? 0;
     },
-    {
-        immediate: true,
-        deep: true,
-    },
+    { immediate: true, deep: true },
 );
+
+watch([() => filter, () => sorting, () => paging], load, {
+    immediate: true,
+    deep: true,
+});
+
+onMounted(initTrigger);
 </script>
 
 <template>
@@ -73,7 +137,7 @@ watch(
         :class="catalogClass"
     >
         <div
-            v-if="!isLoading && !error"
+            v-if="(!isLoading || infinite) && !error"
             class="catalog__body"
         >
             <div
@@ -81,8 +145,13 @@ watch(
                 :key="item.id"
                 class="catalog__item"
             >
-                <slot v-bind="{ item, catalogItems, totalItems, page }"></slot>
+                <slot v-bind="{ item, catalogItems, totalItems, page: loadedPage }"></slot>
             </div>
+            <div
+                v-if="infinite"
+                class="catalog__infinite-load-trigger"
+                ref="loadTrigger"
+            ></div>
         </div>
         <slot
             v-else-if="!isLoading && error"
@@ -91,7 +160,7 @@ watch(
             >{{ error }}</slot
         >
         <slot
-            v-else
+            v-if="isLoading"
             name="loader"
         >
             Загрузка...
@@ -128,5 +197,9 @@ watch(
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.catalog__infinite-load-trigger {
+    margin-top: -10px;
 }
 </style>
